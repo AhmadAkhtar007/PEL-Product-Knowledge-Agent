@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "PEL Customer Support",
-    "slug": "pel-customer-support",
+    "name": "android-app",
+    "slug": "android-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#000000",
     "android": {
-      "package": "com.pel.customersupport"
+      "package": "com.pel.androidapp"
     }
   }
 }

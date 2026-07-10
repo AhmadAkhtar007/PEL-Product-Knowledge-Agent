@@ -66,6 +66,7 @@ class QueryRequest(BaseModel):
     model: Optional[str] = None
     series: Optional[str] = None
     image_base64: Optional[str] = None
+    audio_base64: Optional[str] = None
 
 # ---------------------------------------------------------------------------
 # API Routes
@@ -212,7 +213,7 @@ async def conversation_query_stream(
         llm = LLMService()
         accumulated_response = ""
         
-        async for chunk in llm.generate_content_stream(prompt, req.image_base64, tools=agent_tools):
+        async for chunk in llm.generate_content_stream(prompt, req.image_base64, audio_base64=req.audio_base64, tools=agent_tools):
             if isinstance(chunk, str):
                 accumulated_response += chunk
                 yield f"event: content\ndata: {json.dumps(chunk)}\n\n"

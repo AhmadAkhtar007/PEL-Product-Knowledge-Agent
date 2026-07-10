@@ -49,7 +49,7 @@ class LLMService:
             print(f"Gemini API call failed: {e}. Falling back to mock response.")
             return "I'm currently experiencing some technical difficulties connecting to my knowledge base. Please try asking your question again in a moment."
 
-    async def generate_content_stream(self, prompt: str, image_base64: str = None, **kwargs):
+    async def generate_content_stream(self, prompt: str, image_base64: str = None, audio_base64: str = None, **kwargs):
         """Yield response chunks using Gemini's streaming API, or mock fallback."""
         if not self.client:
             mock_text = f"[Mock Mode] I received your prompt:\n{prompt[:100]}...\n\nI am simulating a streaming response so you can perform extensive testing on the UI and chat behavior without hitting any API rate limits!"
@@ -68,6 +68,16 @@ class LLMService:
                 mime_type="image/jpeg"
             )
             contents.append(image_part)
+
+        if audio_base64:
+            if "," in audio_base64:
+                audio_base64 = audio_base64.split(",")[1]
+            audio_data = base64.b64decode(audio_base64)
+            audio_part = types.Part.from_bytes(
+                data=audio_data,
+                mime_type="audio/mp4"
+            )
+            contents.append(audio_part)
 
         try:
             # We retry the initial connection if rate limited

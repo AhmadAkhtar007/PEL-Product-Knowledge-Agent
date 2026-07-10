@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView,
-  Image, ActivityIndicator, Alert, SafeAreaView, KeyboardAvoidingView, Platform,
+  Image, ActivityIndicator, Alert, KeyboardAvoidingView, Platform,
   StatusBar, Animated, Dimensions, RefreshControl, Modal, BackHandler, Linking
 } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import * as Speech from 'expo-speech';
+import { useAudioRecorder, AudioModule, RecordingPresets } from 'expo-audio';
 import { Feather as Lucide } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 
@@ -16,15 +18,24 @@ const getBackendUrl = () => {
     return process.env.EXPO_PUBLIC_API_URL;
   }
   const hostUri = Constants.expoConfig?.hostUri;
-  const host = hostUri ? hostUri.split(':')[0] : 'localhost';
-  return `http://${host}:8000`;
+  if (hostUri) {
+    const host = hostUri.split(':')[0];
+    return `http://${host}:8000`;
+  }
+  // Try to use common local IPs for Expo Go, fallback to 10.0.2.2 for Android emulator
+  // Note: On physical devices without EXPO_PUBLIC_API_URL, localhost/10.0.2.2 will fail.
+  return Platform.OS === 'android' ? 'http://10.0.2.2:8000' : 'http://localhost:8000';
 };
 
 const BACKEND_URL = getBackendUrl();
 
 export default function App() {
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const isStartingRecording = useRef(false);
+  const shouldStopImmediately = useRef(false);
+
   // Navigation & Screen transitions
-  const [screen, setScreen] = useState('home'); // 'home' | 'settings'
+  const [screen, setScreen] = useState('chat'); // 'chat' | 'settings'
   const [refreshing, setRefreshing] = useState(false);
 
   // Database lists
@@ -33,7 +44,6 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   
   // Streaming Chat & Input States
-  const [chatOpen, setChatOpen] = useState(false);
   const [input, setInput] = useState('');
   const [image, setImage] = useState(null);
   const [thinking, setThinking] = useState(false);
@@ -42,8 +52,8 @@ export default function App() {
 
   // Voice States
   const [playingMessageId, setPlayingMessageId] = useState(null);
-  const [recording, setRecording] = useState(false);
-  const [recordingPulse] = useState(new Animated.Value(1));
+  const [isRecording, setIsRecording] = useState(false);
+  const [emptyOrbPulse] = useState(new Animated.Value(1));
   const [selectedUrduVoice, setSelectedUrduVoice] = useState(false);
 
   // Modal Viewers
@@ -52,7 +62,6 @@ export default function App() {
 
 
   // Animation values
-  const chatTranslateX = useRef(new Animated.Value(SCREEN_WIDTH)).current;
   const drawerTranslateX = useRef(new Animated.Value(-SCREEN_WIDTH)).current;
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -63,27 +72,25 @@ export default function App() {
     fetchInitialData();
   }, []);
 
-  // Voice STT recording pulse animation
+
+
+  // Empty state orb pulse animation
   useEffect(() => {
-    if (recording) {
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(recordingPulse, {
-            toValue: 1.4,
-            duration: 800,
-            useNativeDriver: true
-          }),
-          Animated.timing(recordingPulse, {
-            toValue: 1,
-            duration: 800,
-            useNativeDriver: true
-          })
-        ])
-      ).start();
-    } else {
-      recordingPulse.setValue(1);
-    }
-  }, [recording]);
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(emptyOrbPulse, {
+          toValue: 1.15,
+          duration: 1500,
+          useNativeDriver: true
+        }),
+        Animated.timing(emptyOrbPulse, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true
+        })
+      ])
+    ).start();
+  }, [emptyOrbPulse]);
 
   // Handle Android Hardware Back Button
   useEffect(() => {
@@ -92,20 +99,16 @@ export default function App() {
         setZoomedImage(null);
         return true;
       }
-      if (recording) {
-        setRecording(false);
-        return true;
-      }
-      if (chatOpen) {
-        closeChatOverlay();
+      if (isRecording) {
+        // cannot cancel recording via back button easily, just let it be
         return true;
       }
       if (drawerOpen) {
         setDrawerOpen(false);
         return true;
       }
-      if (screen !== 'home') {
-        setScreen('home');
+      if (screen !== 'chat') {
+        setScreen('chat');
         return true;
       }
       return false; // Exit app
@@ -113,7 +116,7 @@ export default function App() {
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
     return () => backHandler.remove();
-  }, [chatOpen, drawerOpen, zoomedImage, recording, screen]);
+  }, [drawerOpen, zoomedImage, isRecording, screen]);
 
   const fetchInitialData = async () => {
     setRefreshing(true);
@@ -150,7 +153,8 @@ export default function App() {
               if (activeConversation?.id === id) {
                 setActiveConversation(null);
                 setMessages([]);
-                closeChatOverlay();
+                Speech.stop();
+                setPlayingMessageId(null);
               }
               fetchConversations();
             } else {
@@ -174,15 +178,9 @@ export default function App() {
     }).start();
   };
 
-  // Open full-screen chat overlay
+  // Open full-screen chat
   const openChatOverlay = async (conv = null) => {
-    setChatOpen(true);
-    Animated.spring(chatTranslateX, {
-      toValue: 0,
-      useNativeDriver: true,
-      tension: 50,
-      friction: 8
-    }).start();
+    setScreen('chat');
 
     if (conv) {
       setActiveConversation(conv);
@@ -202,19 +200,6 @@ export default function App() {
       setMessages([]);
       setStreamedContent('');
     }
-  };
-
-  const closeChatOverlay = () => {
-    Speech.stop();
-    setPlayingMessageId(null);
-    Animated.timing(chatTranslateX, {
-      toValue: SCREEN_WIDTH,
-      duration: 250,
-      useNativeDriver: true
-    }).start(() => {
-      setChatOpen(false);
-      fetchConversations();
-    });
   };
 
   // Image attachment
@@ -287,19 +272,73 @@ export default function App() {
     });
   };
 
-  // STT Simulated Voice overlay
-  const triggerVoiceRecord = () => {
-    setRecording(true);
+  // Real STT Voice Recording
+  const startRecording = async () => {
+    try {
+      const permission = await AudioModule.requestRecordingPermissionsAsync();
+      if (permission.status !== 'granted') {
+        Alert.alert('Permission Required', 'PEL app needs microphone access.');
+        return;
+      }
+      
+      isStartingRecording.current = true;
+      shouldStopImmediately.current = false;
+      setIsRecording(true);
+
+      await audioRecorder.prepareToRecordAsync();
+      audioRecorder.record();
+
+      isStartingRecording.current = false;
+
+      // If user released the button while we were preparing to record, stop it immediately
+      if (shouldStopImmediately.current) {
+        await finishRecording();
+      }
+    } catch (err) {
+      console.error('Failed to start recording', err);
+      setIsRecording(false);
+      isStartingRecording.current = false;
+    }
   };
 
-  const selectVoiceTranscript = (text) => {
-    setInput(text);
-    setRecording(false);
+  const finishRecording = async () => {
+    try {
+      await audioRecorder.stop();
+      const uri = audioRecorder.uri;
+      if (!uri) return;
+      
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Data = reader.result;
+        handleSend(null, base64Data);
+      };
+      reader.readAsDataURL(blob);
+    } catch (err) {
+      // Suppress the error if the user taps too fast before MediaRecorder can properly initialize
+      console.log('Recording stopped too quickly, discarding.');
+    }
+  };
+
+  const stopRecordingAndSend = async () => {
+    setIsRecording(false);
+    
+    if (isStartingRecording.current) {
+      // Still setting up, so queue the stop
+      shouldStopImmediately.current = true;
+      return;
+    }
+    
+    if (audioRecorder.isRecording) {
+      await finishRecording();
+    }
   };
 
   // SSE Stream Message Query Sender
-  const handleSend = async () => {
-    if (!input.trim() && !image) return;
+  const handleSend = async (queryParam = null, audioBase64Param = null) => {
+    const queryText = queryParam !== null ? queryParam : input;
+    if (!queryText.trim() && !image && !audioBase64Param) return;
 
     let convId = activeConversation?.id;
 
@@ -329,7 +368,6 @@ export default function App() {
       }
     }
 
-    const queryText = input;
     const base64Img = image ? image.base64 : null;
     const imageUri = image ? image.uri : null;
 
@@ -338,7 +376,7 @@ export default function App() {
     setMessages(prev => [...prev, {
       id: userMsgId,
       role: 'user',
-      content: queryText,
+      content: audioBase64Param ? '🎤 Voice Message' : queryText,
       image_url: imageUri,
       created_at: new Date().toISOString()
     }]);
@@ -410,10 +448,11 @@ export default function App() {
     };
 
     xhr.send(JSON.stringify({
-      query: queryText,
+      query: queryText || 'Transcribe and respond to this audio',
       role: 'customer',
       model: selectedModel,
-      image_base64: base64Img
+      image_base64: base64Img,
+      audio_base64: audioBase64Param
     }));
   };
 
@@ -421,88 +460,18 @@ export default function App() {
 
 
 
-  // Mock voice transcript arrays depending on selected model
-  // Mock voice transcript arrays depending on selected model
-  const getMockTranscripts = (model) => {
-    const m = (model || '').toLowerCase();
-    if (m.includes('washing') || m.includes('washer')) return ['Washing machine is not spinning', 'Water is leaking from the door', 'How to clean the lint filter?'];
-    if (m.includes('dispenser') || m.includes('water')) return ['Hot water is not coming out', 'Dispenser is leaking from the bottom', 'Cooling is very slow'];
-    if (m.includes('purifier')) return ['Filter replacement indicator is on', 'Air purifier making loud noise', 'How to reset the filter light?'];
-    if (m.includes('freezer') || m.includes('deep')) return ['Deep freezer is not freezing', 'Ice buildup is too much', 'Door seal is loose'];
-    if (m.includes('tv') || m.includes('led')) return ['TV screen is completely black', 'No sound coming from speakers', 'How to connect to WiFi?'];
-    if (m.includes('microwave') || m.includes('oven')) return ['Microwave is not heating food', 'Turntable is not rotating', 'Sparks inside the microwave'];
-    if (m.includes('ac') || m.includes('split') || m.includes('pinv') || m.includes('air conditioner')) return ['AC cooling nahi kar raha', `What is error code E1 on ${model}?`, 'AC remote is not working'];
-    // Default to refrigerator
-    return ['Mera fridge thanda nahi kar raha', 'Compressor se shor aa raha hai', `How do I defrost my ${model}?`];
-  };
-  const mockTranscripts = getMockTranscripts(selectedModel);
+
 
   return (
+    <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A0A" />
-
-      {/* Main Home Screen */}
-      {screen === 'home' && (
-        <View style={{ flex: 1 }}>
-          <View style={styles.navbar}>
-            <TouchableOpacity onPress={() => toggleDrawer(true)}>
-              <Lucide name="menu" size={24} color="#007DC5" />
-            </TouchableOpacity>
-            <Text style={styles.navTitle}>PEL HOME</Text>
-            <TouchableOpacity onPress={() => setScreen('settings')}>
-              <Lucide name="settings" size={24} color="#E4E4E4" />
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={fetchInitialData} tintColor="#007DC5" />
-            }
-          >
-            {/* Header branding */}
-            <View style={styles.heroSection}>
-              <Text style={styles.welcomeText}>Your Smart Home</Text>
-              <Text style={styles.brandTitle}>Pak Elektron Limited</Text>
-            </View>
-
-            {/* Action Buttons */}
-            <View style={styles.sectionHeaderContainer}>
-              <Text style={styles.sectionTitle}>Get Support</Text>
-            </View>
-
-            <View style={styles.emptyCard}>
-              <Lucide name="message-circle" size={40} color="#555" />
-              <Text style={styles.emptyText}>Start a troubleshooting session with our AI.</Text>
-              <TouchableOpacity style={styles.miniBtn} onPress={() => openChatOverlay()}>
-                <Text style={styles.miniBtnText}>Start Chat</Text>
-              </TouchableOpacity>
-            </View>
-
-
-          </ScrollView>
-
-          {/* Persistent Floating Chat Capsule */}
-          {!chatOpen && (
-            <TouchableOpacity 
-              style={styles.floatingChatBar}
-              onPress={() => openChatOverlay()}
-            >
-              <Lucide name="message-square" size={20} color="#FFF" style={{ marginRight: 10 }} />
-              <Text style={styles.floatingChatBarText}>Ask PEL AI Assistant...</Text>
-              <View style={styles.floatingSendBtn}>
-                <Lucide name="arrow-right" size={16} color="#007DC5" />
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
 
       {/* Settings / Profile Screen */}
       {screen === 'settings' && (
         <View style={{ flex: 1, padding: 20 }}>
           <View style={styles.subHeader}>
-            <TouchableOpacity onPress={() => setScreen('home')}>
+            <TouchableOpacity onPress={() => setScreen('chat')}>
               <Lucide name="arrow-left" size={24} color="#007DC5" />
             </TouchableOpacity>
             <Text style={styles.subHeaderTitle}>Profile & Settings</Text>
@@ -557,7 +526,7 @@ export default function App() {
               }}
             >
               <Lucide name="plus" size={20} color="#FFF" style={{ marginRight: 8 }} />
-              <Text style={styles.newChatBtnText}>New Troubleshooting Session</Text>
+              <Text style={styles.newChatBtnText}>New Chat</Text>
             </TouchableOpacity>
 
             <ScrollView contentContainerStyle={{ padding: 15 }}>
@@ -591,23 +560,25 @@ export default function App() {
         </Animated.View>
       )}
 
-      {/* Slide-In Full Screen Chat Overlay */}
-      {chatOpen && (
-        <Animated.View style={[styles.chatOverlay, { transform: [{ translateX: chatTranslateX }] }]}>
+      {/* Main Chat Screen */}
+      {screen === 'chat' && (
+        <View style={{ flex: 1 }}>
           <KeyboardAvoidingView 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+            behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} 
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 30}
             style={{ flex: 1 }}
           >
             <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.chatNavbar}>
-              <TouchableOpacity onPress={closeChatOverlay}>
-                <Lucide name="arrow-left" size={24} color="#007DC5" />
+              <TouchableOpacity onPress={() => toggleDrawer(true)}>
+                <Lucide name="menu" size={24} color="#007DC5" />
               </TouchableOpacity>
               <View style={{ alignItems: 'center' }}>
-                <Text style={styles.chatTitleText}>PEL AI Troubleshooter</Text>
-                <Text style={styles.chatSubtitleText}>Active: {selectedModel}</Text>
+                <Text style={styles.chatTitleText}>PEL Chat Assistant</Text>
               </View>
-
+              <TouchableOpacity onPress={() => setScreen('settings')}>
+                <Lucide name="settings" size={24} color="#E4E4E4" />
+              </TouchableOpacity>
             </View>
 
             {/* Messages Thread */}
@@ -618,10 +589,17 @@ export default function App() {
             >
               {messages.length === 0 && !thinking && !streamedContent && (
                 <View style={styles.emptyChatBox}>
-                  <Lucide name="cpu" size={40} color="#007DC5" style={{ marginBottom: 15 }} />
-                  <Text style={styles.emptyChatTitle}>Powered by Gemini 1.5 Pro</Text>
+                  <Animated.View style={[styles.emptyOrb, { transform: [{ scale: emptyOrbPulse }] }]}>
+                    {/* Using an inline styled Text as a placeholder for the logo. The user can also use an Image here if an asset is added. */}
+                    <View style={styles.pelLogoOuter}>
+                      <View style={styles.pelLogoInner}>
+                        <Text style={styles.pelLogoText}>PEL</Text>
+                      </View>
+                    </View>
+                  </Animated.View>
+                  <Text style={styles.emptyChatTitle}>PEL Assistant</Text>
                   <Text style={styles.emptyChatDesc}>
-                    Provide details on the fault codes, indicators, or buzzing sounds.
+                    How can I help you with your PEL appliance today?
                   </Text>
                 </View>
               )}
@@ -709,53 +687,20 @@ export default function App() {
                   placeholder="Ask a query, describe issue..."
                   placeholderTextColor="#555"
                 />
-                <TouchableOpacity onPress={triggerVoiceRecord} style={[styles.capsuleAction, { marginRight: 5 }]}>
-                  <Lucide name="mic" size={20} color="#888" />
+                <TouchableOpacity 
+                  onPressIn={startRecording}
+                  onPressOut={stopRecordingAndSend}
+                  style={[styles.capsuleAction, { marginRight: 5, backgroundColor: isRecording ? '#ef4444' : 'transparent', borderRadius: 20 }]}
+                >
+                  <Lucide name="mic" size={20} color={isRecording ? '#FFF' : '#888'} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleSend} style={styles.capsuleSend}>
+                <TouchableOpacity onPress={() => handleSend()} style={styles.capsuleSend}>
                   <Lucide name="send" size={20} color="#007DC5" />
                 </TouchableOpacity>
               </View>
             </View>
             </SafeAreaView>
           </KeyboardAvoidingView>
-        </Animated.View>
-      )}
-
-      {/* Simulated STT Speech recognizer Overlay Sheet */}
-      {recording && (
-        <View style={styles.micModalOverlay}>
-          <View style={styles.micModalContent}>
-            <Text style={styles.micModalTitle}>PEL Voice Recognition</Text>
-            
-            {/* Pulsing microphone ripple animation */}
-            <View style={styles.micPulseContainer}>
-              <Animated.View style={[styles.micPulseRing, { transform: [{ scale: recordingPulse }] }]} />
-              <View style={styles.micBtnInner}>
-                <Lucide name="mic" size={32} color="#FFF" />
-              </View>
-            </View>
-            
-            <Text style={styles.micModalSub}>Listening to your voice...</Text>
-            <Text style={styles.micSelectorHeader}>Select simulated query:</Text>
-            
-            {mockTranscripts.map(text => (
-              <TouchableOpacity
-                key={text}
-                style={styles.micTranscriptChip}
-                onPress={() => selectVoiceTranscript(text)}
-              >
-                <Text style={styles.micTranscriptText}>{text}</Text>
-              </TouchableOpacity>
-            ))}
-
-            <TouchableOpacity
-              style={[styles.miniBtn, { marginTop: 25, borderColor: '#EF4444' }]}
-              onPress={() => setRecording(false)}
-            >
-              <Text style={[styles.miniBtnText, { color: '#EF4444' }]}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       )}
 
@@ -771,6 +716,7 @@ export default function App() {
         </Modal>
       )}
     </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -778,7 +724,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0A0A0A',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   navbar: {
     flexDirection: 'row',
@@ -1356,6 +1301,41 @@ const styles = StyleSheet.create({
   emptyChatBox: {
     alignItems: 'center',
     paddingVertical: 60
+  },
+  pelLogoOuter: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#007DC5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pelLogoInner: {
+    width: 50,
+    height: 34,
+    borderRadius: 25,
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pelLogoText: {
+    color: '#007DC5',
+    fontSize: 16,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+  emptyOrb: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#007DC5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    shadowColor: '#007DC5',
+    shadowOpacity: 0.5,
+    shadowRadius: 15,
+    elevation: 8
   },
   emptyChatTitle: {
     color: '#FFF',
