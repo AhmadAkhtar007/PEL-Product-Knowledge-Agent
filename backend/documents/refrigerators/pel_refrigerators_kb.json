@@ -1,0 +1,56 @@
+{
+  "source_document": "pel_refrigerators_2026.txt",
+  "product_category": "Refrigerator",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "ref-warranty",
+      "audience": "customer",
+      "series": "all",
+      "model": "all",
+      "title": "General Refrigerator Warranties",
+      "content": "All PEL Refrigerators come with a 10 Years Compressor Warranty."
+    },
+    {
+      "id": "ref-digitron-guide",
+      "audience": "customer",
+      "series": "Digitron Inverter",
+      "model": "6370, 6470, 21970 (Jumbo), 22270 (Jumbo)",
+      "title": "Digitron Inverter Operation Guide",
+      "content": "For models with a Digital Smart Display, the compressor starts after 3 minutes. The panel locks after 1 minute (hold LOCK for 3 seconds to unlock). It features 4 modes: HOLIDAY (+7\u00b0C Ref, -12\u00b0C Frz), INSTA COOL (+5\u00b0C Ref, -15\u00b0C Frz), ENERGY SAVER (+3\u00b0C Ref, -18\u00b0C Frz), and FAST FREEZE (+1\u00b0C Ref, -22\u00b0C Frz)."
+    },
+    {
+      "id": "ref-ultra-digitron",
+      "audience": "customer",
+      "series": "Ultra Digitron Inverter (Curved Glass)",
+      "model": "6370, 6470, 21970, 22270",
+      "title": "Ultra Digitron Inverter Series",
+      "content": "The Ultra Digitron Inverter Series features a Curved Glass Door, Digital Smart Display, R600a refrigerant, Toughened Glass Shelves, 100V start up, and UPS/Solar compatibility (600W/1000VA). Capacities range from 310L to 408L. The 6370 and 6470 models feature Humidity Controllers."
+    },
+    {
+      "id": "ref-inverter-flat-vcm",
+      "audience": "customer",
+      "series": "Inverter (Flat Glass & VCM)",
+      "model": "2350, 2550, 6370, 6470, 6460, 21870, 21860, 22270",
+      "title": "Inverter Series (Flat Glass & VCM Doors)",
+      "content": "Inverter Series refrigerators offer up to 40% energy savings, Jet Cool 360\u00b0, and 100V start. The 2350 (233L) and 2550 (255L) use R134a, screw-in gaskets, and extended handles. Models 6370, 6470, 6460, 21870, 21860, and 22270 use R600a, flush handles, and detachable gaskets."
+    },
+    {
+      "id": "ref-non-inverter-life-pro",
+      "audience": "customer",
+      "series": "Non Inverter (Flat Glass & Life Pro VCM)",
+      "model": "2000, 2200, 2350, 2550, 6370, 6470, 6360, 6460, 21870, 21970, 21860, 22270, 22260",
+      "title": "Non Inverter & Life Pro Series",
+      "content": "These non-inverter models feature Insta Cool (25 Min Fast Freeze). Models 2000, 2200, 2350, and 2550 use R134a. Models 6370 and above use R600a. They have mechanical temperature control, wire shelves, and roll bond evaporators (up to 2550) or tube on sheet evaporators (6370+)."
+    },
+    {
+      "id": "ref-single-door",
+      "audience": "customer",
+      "series": "Single Door Series",
+      "model": "PRLP 1100 VCM, PRLP 1400 VCM",
+      "title": "Single Door (Non Inverter) Series",
+      "content": "The Single Door series consists of the PRLP 1100 VCM (109L) and PRLP 1400 VCM (135L). These models have NO freezer section\u2014they are Refrigerator only. They use R134a refrigerant, a roll bond evaporator, and consume 100W-110W."
+    }
+  ]
+}

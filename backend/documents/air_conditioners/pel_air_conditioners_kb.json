@@ -1,0 +1,48 @@
+{
+  "source_document": "pel_ac_catalog_2026.txt",
+  "product_category": "Air Conditioner",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "ac-warranty-tech",
+      "audience": "customer",
+      "series": "all",
+      "model": "all",
+      "title": "General AC Warranties & Core Technologies",
+      "content": "All PEL Air Conditioners feature a 10 Years Compressor Warranty and 5 Years PCB kit Warranty. Core technologies include Platinum Shield Coating (2X durability against corrosion), InverterOn, R-32 eco-friendly refrigerant, Self-Clean Evaporator, and Wi-Fi Control."
+    },
+    {
+      "id": "ac-165v-startup",
+      "audience": "customer",
+      "series": "C, A, FIT, JUMBO",
+      "model": "Cool Breeze, Cool Pro, Atom, Eco Gear, Aero Extend, Fit Black, Jumbo DC Prime",
+      "title": "165V Startup Voltage Models",
+      "content": "The following models operate with a minimal start-up voltage of 165 Volts: Cool Breeze InverterOn (12K/18K, R32), Cool Pro InverterOn (12K/18K, R32), Atom InverterOn (12K/18K, R32), Eco Gear/ACE PRO (12K/18K, R32), Aero Extend (12K/18K, R32), Fit Black T3 (12K/18K/24K, R410a), and Jumbo DC Prime (12K/18K/24K, R410a/R32)."
+    },
+    {
+      "id": "ac-155v-startup",
+      "audience": "customer",
+      "series": "S SERIES",
+      "model": "Sublime Neo T3 InverterOn",
+      "title": "155V Startup Voltage Models",
+      "content": "The Sublime Neo T3 InverterOn (12K/18K) features a minimal start-up voltage of 155 Volts, utilizes R32 refrigerant, and delivers powerful cooling up to 50\u00b0C (T3)."
+    },
+    {
+      "id": "ac-140v-startup",
+      "audience": "customer",
+      "series": "FIT, TURBO, JUMBO",
+      "model": "Fit Graphite, Turbo DC Ultimate, Jumbo X, Jumbo Cool, Jumbo Pro",
+      "title": "140V Ultra Low Startup Voltage Models",
+      "content": "For extreme low voltage areas, PEL offers models with a minimal start-up voltage of 140 Volts: Fit Graphite T3 InverterOn (12K/18K/24K, R32), Turbo DC Ultimate T3 (12K/18K/24K, R32), Jumbo X T3 (12K/18K/24K, R32), Jumbo Cool (12K/18K/24K, R32), and Jumbo Pro T3 (12K/18K, R32)."
+    },
+    {
+      "id": "ac-floor-standing",
+      "audience": "customer",
+      "series": "Floor Standing",
+      "model": "BOLD+, SUPREME, ULTIMATE+",
+      "title": "Floor Standing Models",
+      "content": "PEL Floor Standing ACs include: BOLD+ (R410a, 18M long distance airflow), SUPREME (R410a, Power Outage Memory feature), and ULTIMATE+ (R32, 18M airflow, self-clean). All are Heat & Cool capable with 4D Air Flow."
+    }
+  ]
+}

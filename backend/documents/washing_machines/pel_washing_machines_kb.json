@@ -1,0 +1,24 @@
+{
+  "source_document": "pel_washing_machine_2026.txt",
+  "product_category": "Washing Machine",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "wm-fully-auto",
+      "audience": "customer",
+      "series": "Fully Automatic (PAWM)",
+      "model": "PAWM 900, 900i, 1100, 1100i",
+      "title": "Fully Automatic Series",
+      "content": "The Fully Automatic PAWM series features Artificial Intelligence wash and 'Brain Technology' (resumes exactly where it stopped after power failure). Models with an 'i' (900i, 1100i) feature a Smart Touch panel, while non-i models use Soft Touch. Specs: 10 water levels, tempered glass with damper. PAWM 900/900i consume 380W Wash/260W Spin. PAWM 1100/1100i consume 420W Wash/280W Spin."
+    },
+    {
+      "id": "wm-semi-auto",
+      "audience": "customer",
+      "series": "Semi Automatic (PWMS)",
+      "model": "PWMS 8050, PWMS 1250",
+      "title": "Semi Automatic Series",
+      "content": "The Semi Automatic PWMS series uses a manual water inlet and features an Anti-Rust body, Big Pulsator, Rat Guard Base Plate, and Gear Train Technology (reduces direct motor load). PWMS 8050 consumes 350W, and PWMS 1250 consumes 450W."
+    }
+  ]
+}

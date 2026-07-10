@@ -1,0 +1,40 @@
+{
+  "source_document": "pel_microwave_2025.txt",
+  "product_category": "Microwave Oven",
+  "brand": "PEL",
+  "catalog_year": 2025,
+  "chunks": [
+    {
+      "id": "mw-warranty",
+      "audience": "customer",
+      "series": "all",
+      "model": "all",
+      "title": "Microwave Warranty",
+      "content": "All PEL Microwaves come with a 2-Year Magnetron Warranty."
+    },
+    {
+      "id": "mw-solo",
+      "audience": "customer",
+      "series": "Solo Manual & Digital",
+      "model": "PMO-20 W/B M CLASSIC, PMO-20 BH CLASSIC PLUS, PMO-23 SLM SILVER LINE, PMO-23 SLD SILVER LINE",
+      "title": "Solo Series (Manual & Digital)",
+      "content": "Solo models provide basic microwave functionality. Manual models use dials, while the SLD Silver Line features a digital touch panel."
+    },
+    {
+      "id": "mw-grill",
+      "audience": "customer",
+      "series": "Digital Grill",
+      "model": "PMO-23/26/30 DESIRE, PMO-23/26 CHEF, PMO-30 BG GLAMOUR",
+      "title": "Digital Grill Models",
+      "content": "The Desire, Chef, and Glamour series feature digital touch panels and an added Grill function for crispy food tops."
+    },
+    {
+      "id": "mw-advanced",
+      "audience": "customer",
+      "series": "Convection & Kitchen Pro",
+      "model": "PMO-25/30 CONVECTION, PMO-23/28 KITCHEN PRO GR, PMO-26 KITCHEN PRO CAF, PMO-30 KITCHEN PRO ICAF",
+      "title": "Convection & Kitchen Pro Air Fryer Models",
+      "content": "Convection models (25L/30L) add baking capabilities. The high-end Kitchen Pro series offers advanced features like Air Frying (PMO-26 KITCHEN PRO CAF) and Inverter technology combined with Air Frying (PMO-30 KITCHEN PRO ICAF)."
+    }
+  ]
+}

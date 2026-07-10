@@ -5,8 +5,10 @@ __pycache__/
 *.pyc
 test_pel*.db
 node_modules/
+.expo/
 .next/
 dist/
 coverage/
 chroma_db/
 backend/chroma_db/
+agent-app/

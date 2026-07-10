@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "PEL Tech Support",
+    "slug": "pel-tech-support",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "com.pel.techsupport"
+    }
+  }
+}
