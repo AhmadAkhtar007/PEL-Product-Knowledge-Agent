@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+test_pel*.db
+node_modules/
+.next/
+dist/
+coverage/
+chroma_db/
+backend/chroma_db/
