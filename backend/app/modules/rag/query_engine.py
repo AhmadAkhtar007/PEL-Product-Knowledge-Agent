@@ -2,7 +2,7 @@ import chromadb
 import re
 from typing import Optional, List
 from backend.app.config import settings
-from backend.app.modules.rag.prompts import CUSTOMER_PROMPT_TEMPLATE, TECHNICIAN_PROMPT_TEMPLATE
+from backend.app.modules.rag.prompts import GENERAL_PROMPT_TEMPLATE
 from backend.app.modules.rag.ingestion import get_embeddings
 
 class RAGQueryEngine:
@@ -15,7 +15,6 @@ class RAGQueryEngine:
     def retrieve_context(
         self,
         query_text: str,
-        role: str,
         product_id: Optional[str] = None,
         model: Optional[str] = None,
         series: Optional[str] = None,
@@ -24,10 +23,6 @@ class RAGQueryEngine:
         # 1. Build where filter for ChromaDB
         conditions = []
         
-        # Audience / Role filter
-        if role == "customer":
-            conditions.append({"audience": "customer"})
-            
         # Model / Product ID filter
         target_model = model or product_id
         if target_model:
@@ -67,19 +62,21 @@ class RAGQueryEngine:
             return [], []
             
         # 3. Compute Vector Search (get top 20 to rank)
-        query_embeddings = get_embeddings([query_text])
-        query_vector = query_embeddings[0]
-        
-        vector_results = self.collection.query(
-            query_embeddings=[query_vector],
-            n_results=min(20, len(docs)),
-            where=where_clause
-        )
-        
-        vector_ids = vector_results.get("ids", [[]])[0]
-        
-        # Create Vector Rank map
-        vector_rank = {doc_id: rank + 1 for rank, doc_id in enumerate(vector_ids)}
+        try:
+            query_embeddings = get_embeddings([query_text])
+            query_vector = query_embeddings[0]
+
+            vector_results = self.collection.query(
+                query_embeddings=[query_vector],
+                n_results=min(20, len(docs)),
+                where=where_clause
+            )
+
+            vector_ids = vector_results.get("ids", [[]])[0]
+            vector_rank = {doc_id: rank + 1 for rank, doc_id in enumerate(vector_ids)}
+        except Exception as exc:
+            print(f"Vector retrieval failed; falling back to BM25-only retrieval: {exc}")
+            vector_rank = {}
         
         # 4. Compute BM25 Search
         try:
@@ -127,7 +124,6 @@ class RAGQueryEngine:
     async def query(
         self,
         query_text: str,
-        role: str,
         product_id: Optional[str] = None,
         model: Optional[str] = None,
         series: Optional[str] = None,
@@ -138,7 +134,6 @@ class RAGQueryEngine:
         # 1. Retrieve context
         context_chunks, metadatas = self.retrieve_context(
             query_text=query_text,
-            role=role,
             product_id=product_id,
             model=model,
             series=series
@@ -148,10 +143,7 @@ class RAGQueryEngine:
         context_text = "\n---\n".join(context_chunks) if context_chunks else "No manual context found."
         
         # 3. Format prompt templates
-        if role == "technician":
-            prompt = TECHNICIAN_PROMPT_TEMPLATE.format(context=context_text, query=query_text, history=history)
-        else:
-            prompt = CUSTOMER_PROMPT_TEMPLATE.format(context=context_text, query=query_text, history=history)
+        prompt = GENERAL_PROMPT_TEMPLATE.format(context=context_text, query=query_text, history=history)
             
         # 4. Query Gemini 1.5 Flash
         llm_response = await self.llm.query_gemini_multimodal(prompt, image_base64)

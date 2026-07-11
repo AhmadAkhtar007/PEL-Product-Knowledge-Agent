@@ -11,7 +11,8 @@ router = APIRouter()
 
 class QueryRequest(BaseModel):
     query: str
-    role: str  # "customer" or "technician"
+    role: Optional[str] = None
+
     product_id: Optional[str] = None
     model: Optional[str] = None
     series: Optional[str] = None
@@ -19,13 +20,9 @@ class QueryRequest(BaseModel):
 
 @router.post("/rag/query")
 async def rag_query(req: QueryRequest, db: AsyncSession = Depends(get_db_session)):
-    if req.role not in ["customer", "technician"]:
-        raise HTTPException(status_code=400, detail="Invalid role. Must be 'customer' or 'technician'.")
-    
     engine = RAGQueryEngine()
     result = await engine.query(
         query_text=req.query,
-        role=req.role,
         product_id=req.product_id,
         model=req.model,
         series=req.series,
@@ -37,8 +34,8 @@ async def rag_query(req: QueryRequest, db: AsyncSession = Depends(get_db_session
         "escalate": result["escalate"]
     }
     
-    # If technician and needs escalation, provide experts
-    if req.role == "technician" and result["escalate"]:
+    # If needs escalation, provide experts
+    if result["escalate"]:
         department = None
         if "metadata" in result and result["metadata"]:
             for meta in result["metadata"]:

@@ -14,7 +14,7 @@ class Settings:
     MODEL_NAME: str = "gemini-2.5-flash"  # Easy swap variable
     USE_MOCK_LLM: bool = os.getenv("USE_MOCK_LLM", "False").lower() == "true"
     DB_PATH: str = "pel_app.db"
-    CHROMA_PATH: str = "chroma_db"
+    CHROMA_PATH: str = os.getenv("CHROMA_PATH", "backend/chroma_db")
 
     # PostgreSQL configuration
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")
@@ -33,4 +33,3 @@ class Settings:
         return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
 settings = Settings()
-

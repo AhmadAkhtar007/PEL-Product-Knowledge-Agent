@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "android-app",
-    "slug": "android-app",
+    "name": "PEL Product Knowledge Agent",
+    "slug": "pel-product-knowledge-agent",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "dark",

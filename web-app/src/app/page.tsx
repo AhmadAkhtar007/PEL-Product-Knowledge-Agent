@@ -15,12 +15,18 @@ type Message = {
   sources?: Source[];
 };
 
+type RagResponse = {
+  answer?: string;
+  sources?: Source[];
+  error?: string;
+};
+
 export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Hello! I am your knowledge base assistant. Ask me anything and I will retrieve the information for you.'
+      content: 'Hello! I am the PEL Product Knowledge Agent. Ask me anything and I will retrieve the information for you.'
     }
   ]);
   const [input, setInput] = useState('');
@@ -65,7 +71,7 @@ export default function ChatBot() {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/v1/rag/query', {
+      const response = await fetch('/api/rag/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,23 +79,24 @@ export default function ChatBot() {
         body: JSON.stringify({ query: userMessage.content }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch response');
-      }
-
-      const data = await response.json();
+      const data = (await response.json().catch(() => ({}))) as RagResponse;
       
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.answer || "I'm sorry, I couldn't find an answer.",
+        content:
+          data.answer ||
+          data.error ||
+          "I'm sorry, I couldn't find an answer.",
         sources: data.sources || []
       };
 
       setMessages(prev => [...prev, botMessage]);
+      if (!response.ok) {
+        setError(data.error || 'Unable to reach the PEL backend.');
+      }
     } catch (err) {
       setError('Unable to reach the server. Please check your connection.');
-      console.error(err);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +112,7 @@ export default function ChatBot() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1 className={styles.title}>Knowledge Base</h1>
+        <h1 className={styles.title}>PEL Product Knowledge Agent</h1>
         <p className={styles.subtitle}>Ask questions and get answers with citations.</p>
       </header>
 
@@ -152,7 +159,7 @@ export default function ChatBot() {
                 value={input}
                 onChange={handleInput}
                 onKeyDown={handleKeyDown}
-                placeholder="Message the knowledge base..."
+                placeholder="Message the PEL Product Knowledge Agent..."
                 className={styles.input}
                 rows={1}
                 disabled={isLoading}

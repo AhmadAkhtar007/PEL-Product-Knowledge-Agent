@@ -15,7 +15,7 @@ from backend.app.database import get_db_session
 from backend.app.models.conversation import Conversation, Message
 from backend.app.models.expert import Expert
 from backend.app.modules.rag.query_engine import RAGQueryEngine
-from backend.app.modules.rag.prompts import CUSTOMER_PROMPT_TEMPLATE, TECHNICIAN_PROMPT_TEMPLATE
+from backend.app.modules.rag.prompts import GENERAL_PROMPT_TEMPLATE
 from backend.app.services.llm_service import LLMService
 from backend.app.modules.conversations.tools import agent_tools, register_complaint, trigger_dialer, escalate_to_app, contact_whatsapp
 
@@ -26,7 +26,7 @@ router = APIRouter()
 # ---------------------------------------------------------------------------
 
 class ConversationCreate(BaseModel):
-    role: str
+    role: str = "general"
     title: Optional[str] = None
 
 class ConversationResponse(BaseModel):
@@ -74,8 +74,6 @@ class QueryRequest(BaseModel):
 
 @router.post("/conversations", response_model=ConversationResponse, status_code=201)
 async def create_conversation(req: ConversationCreate, db: AsyncSession = Depends(get_db_session)):
-    if req.role not in ["customer", "technician"]:
-        raise HTTPException(status_code=400, detail="Invalid role. Must be 'customer' or 'technician'.")
     
     conv = Conversation(
         role=req.role,
@@ -143,10 +141,6 @@ async def conversation_query_stream(
     conversation = result.scalar_one_or_none()
     if not conversation:
         raise HTTPException(status_code=404, detail="Conversation not found")
-        
-    role = req.role or conversation.role
-    if role not in ["customer", "technician"]:
-        raise HTTPException(status_code=400, detail="Invalid role. Must be 'customer' or 'technician'.")
 
     # 2. Fetch last 10 messages before adding current one
     result_messages = await db.execute(
@@ -188,7 +182,6 @@ async def conversation_query_stream(
         engine = RAGQueryEngine()
         context_chunks, metadatas = engine.retrieve_context(
             query_text=req.query,
-            role=role,
             product_id=req.product_id,
             model=req.model,
             series=req.series
@@ -204,10 +197,7 @@ async def conversation_query_stream(
             history_str += "\n</conversation_history>\n"
             
         # Format prompt
-        if role == "technician":
-            prompt = TECHNICIAN_PROMPT_TEMPLATE.format(context=context_text, query=req.query, history=history_str)
-        else:
-            prompt = CUSTOMER_PROMPT_TEMPLATE.format(context=context_text, query=req.query, history=history_str)
+        prompt = GENERAL_PROMPT_TEMPLATE.format(context=context_text, query=req.query, history=history_str)
             
         # Call Gemini streaming
         llm = LLMService()
@@ -249,9 +239,9 @@ async def conversation_query_stream(
             if not accumulated_response:
                 accumulated_response = "I recommend having a technician look at this. Let me escalate this for you."
 
-        # Fetch expert contacts if technician and escalate
+        # Fetch expert contacts if escalate
         expert_contacts = []
-        if role == "technician" and escalate:
+        if escalate:
             department = None
             if metadatas:
                 for meta in metadatas:
@@ -298,7 +288,7 @@ async def conversation_query_stream(
             "response": accumulated_response,
             "escalate": escalate
         }
-        if role == "technician" and escalate:
+        if escalate:
             done_data["expert_contacts"] = expert_contacts
             
         yield f"event: done\ndata: {json.dumps(done_data)}\n\n"

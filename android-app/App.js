@@ -133,7 +133,7 @@ export default function App() {
       const res = await fetch(`${BACKEND_URL}/conversations`);
       if (res.ok) {
         const data = await res.json();
-        setConversations(data.filter(c => c.role === 'customer'));
+        setConversations(data);
       }
     } catch (error) {
       console.log('Error fetching conversations:', error);
@@ -184,7 +184,7 @@ export default function App() {
 
     if (conv) {
       setActiveConversation(conv);
-      setSelectedModel(conv.role === 'technician' ? 'PINV-12K Jumbo DC Prime T3' : 'Glass Door Prism Series');
+      setSelectedModel('Glass Door Prism Series');
       try {
         const res = await fetch(`${BACKEND_URL}/conversations/${conv.id}/messages`);
         if (res.ok) {
@@ -275,6 +275,7 @@ export default function App() {
   // Real STT Voice Recording
   const startRecording = async () => {
     try {
+      if (isStartingRecording.current || isRecording) return;
       const permission = await AudioModule.requestRecordingPermissionsAsync();
       if (permission.status !== 'granted') {
         Alert.alert('Permission Required', 'PEL app needs microphone access.');
@@ -295,9 +296,8 @@ export default function App() {
         await finishRecording();
       }
     } catch (err) {
-      console.error('Failed to start recording', err);
-      setIsRecording(false);
       isStartingRecording.current = false;
+      setIsRecording(false);
     }
   };
 
@@ -322,17 +322,20 @@ export default function App() {
   };
 
   const stopRecordingAndSend = async () => {
-    setIsRecording(false);
-    
-    if (isStartingRecording.current) {
-      // Still setting up, so queue the stop
-      shouldStopImmediately.current = true;
-      return;
-    }
-    
-    if (audioRecorder.isRecording) {
-      await finishRecording();
-    }
+    // delay the stop briefly to prevent fast tap crashing native module
+    setTimeout(async () => {
+      setIsRecording(false);
+      
+      if (isStartingRecording.current) {
+        // Still setting up, so queue the stop
+        shouldStopImmediately.current = true;
+        return;
+      }
+      
+      if (audioRecorder.isRecording) {
+        await finishRecording();
+      }
+    }, 200);
   };
 
   // SSE Stream Message Query Sender
@@ -349,7 +352,6 @@ export default function App() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            role: 'customer',
             title: input.substring(0, 50) || 'New Conversation'
           })
         });
@@ -447,9 +449,13 @@ export default function App() {
       }
     };
 
+    xhr.onerror = () => {
+      setThinking(false);
+      Alert.alert('Network Error', 'PEL backend is offline.');
+    };
+
     xhr.send(JSON.stringify({
       query: queryText || 'Transcribe and respond to this audio',
-      role: 'customer',
       model: selectedModel,
       image_base64: base64Img,
       audio_base64: audioBase64Param
@@ -464,7 +470,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
       <StatusBar barStyle="light-content" backgroundColor="#0A0A0A" />
 
       {/* Settings / Profile Screen */}
@@ -574,7 +580,7 @@ export default function App() {
                 <Lucide name="menu" size={24} color="#007DC5" />
               </TouchableOpacity>
               <View style={{ alignItems: 'center' }}>
-                <Text style={styles.chatTitleText}>PEL Chat Assistant</Text>
+                <Text style={styles.chatTitleText}>PEL Product Knowledge Agent</Text>
               </View>
               <TouchableOpacity onPress={() => setScreen('settings')}>
                 <Lucide name="settings" size={24} color="#E4E4E4" />
@@ -584,6 +590,7 @@ export default function App() {
             {/* Messages Thread */}
             <ScrollView
               ref={scrollViewRef}
+              testID="chat-scroll-view"
               contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
               onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
             >
@@ -597,7 +604,7 @@ export default function App() {
                       </View>
                     </View>
                   </Animated.View>
-                  <Text style={styles.emptyChatTitle}>PEL Assistant</Text>
+                  <Text style={styles.emptyChatTitle}>PEL Product Knowledge Agent</Text>
                   <Text style={styles.emptyChatDesc}>
                     How can I help you with your PEL appliance today?
                   </Text>
@@ -658,7 +665,7 @@ export default function App() {
               {thinking && (
                 <View style={styles.thinkingBubble}>
                   <View style={styles.dotPulse} />
-                  <Text style={styles.thinkingText}>PEL AI agent is thinking...</Text>
+                  <Text style={styles.thinkingText}>PEL Product Knowledge Agent is thinking...</Text>
                 </View>
               )}
             </ScrollView>
@@ -688,13 +695,14 @@ export default function App() {
                   placeholderTextColor="#555"
                 />
                 <TouchableOpacity 
+                  testID="mic-button"
                   onPressIn={startRecording}
                   onPressOut={stopRecordingAndSend}
                   style={[styles.capsuleAction, { marginRight: 5, backgroundColor: isRecording ? '#ef4444' : 'transparent', borderRadius: 20 }]}
                 >
                   <Lucide name="mic" size={20} color={isRecording ? '#FFF' : '#888'} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleSend()} style={styles.capsuleSend}>
+                <TouchableOpacity testID="send-button" onPress={() => handleSend()} style={styles.capsuleSend}>
                   <Lucide name="send" size={20} color="#007DC5" />
                 </TouchableOpacity>
               </View>
@@ -724,6 +732,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0A0A0A',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 10 : 0,
   },
   navbar: {
     flexDirection: 'row',

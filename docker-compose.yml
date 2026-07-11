@@ -1,9 +1,8 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:16-alpine
     container_name: pel-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -17,16 +16,20 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 10s
 
   api:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: pel-api
+    restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/workspace/backend
+    env_file:
+      - ./backend/.env
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -34,11 +37,26 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/pel_db
+      - CHROMA_PATH=backend/chroma_db
+      - USE_MOCK_LLM=${USE_MOCK_LLM:-false}
+      - API_RELOAD=false
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     command: >
-      sh -c "alembic -c backend/alembic.ini upgrade head && uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload"
+      sh -c "alembic -c backend/alembic.ini upgrade head &&
+      python -m backend.app.modules.rag.ingestion &&
+      if [ \"$$API_RELOAD\" = \"true\" ]; then
+        uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload;
+      else
+        uvicorn backend.app.main:app --host 0.0.0.0 --port 8000;
+      fi"
 
 volumes:
   postgres_data:

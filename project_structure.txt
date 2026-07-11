@@ -1,0 +1,355 @@
+New folder/
+    .gitignore
+    Design.md
+    docker-compose.yml
+    generate_structure.py
+    pyproject.toml
+    recover.py
+    agent-app/
+        .gitignore
+        eslint.config.mjs
+        next-env.d.ts - / <reference types="next" />
+        next.config.js - /** @type {import('next').NextConfig} */
+        next.config.ts
+        package-lock.json
+        package.json
+        postcss.config.js
+        README.md
+        tailwind.config.ts
+        tsconfig.json
+        tsconfig.tsbuildinfo
+        vitest.config.ts
+        vitest.setup.ts
+        .next/
+            package.json
+            prerender-manifest.js
+            routes-manifest.json
+            cache/
+                swc/
+                    plugins/
+                        v7_windows_x86_64_0.106.15/
+                webpack/
+                    client-development/
+                        0.pack.gz
+                        1.pack.gz
+                        2.pack.gz
+                        3.pack.gz
+                        4.pack.gz
+                        index.pack.gz
+                        index.pack.gz.old
+                    client-development-fallback/
+                        0.pack.gz
+                        index.pack.gz
+                    server-development/
+                        0.pack.gz
+                        1.pack.gz
+                        2.pack.gz
+                        3.pack.gz
+                        4.pack.gz
+                        index.pack.gz
+                        index.pack.gz.old
+                    server-production/
+                        0.pack
+                        1.pack
+                        index.pack
+            server/
+                app-paths-manifest.json
+                font-manifest.json
+                pages-manifest.json
+                server-reference-manifest.js
+                server-reference-manifest.json
+                webpack-runtime.js
+                app/
+                    page.js
+                    page.js.nft.json
+                    api/
+                        chat/
+                            route.js
+                            route.js.nft.json
+                    favicon.ico/
+                        route.js
+                        route.js.nft.json
+                    _not-found/
+                        page.js
+                        page.js.nft.json
+                chunks/
+                    471.js
+                    682.js
+                    948.js
+                    font-manifest.json
+                pages/
+                    _app.js
+                    _app.js.nft.json
+                    _document.js
+                    _document.js.nft.json
+                    _error.js
+                    _error.js.nft.json
+            types/
+                package.json
+                app/
+                    layout.ts - File: C:\Dev\New folder\agent-app\src\app\layout.tsx
+                    page.ts - File: C:\Dev\New folder\agent-app\src\app\page.tsx
+                    api/
+                        chat/
+                            route.ts - File: C:\Dev\New folder\agent-app\src\app\api\chat\route.ts
+        public/
+        src/
+            app/
+                globals.css
+                layout.tsx
+                page.tsx
+                api/
+                    chat/
+                        route.ts
+            components/
+                chat/
+                    ChatArea.test.tsx
+                    ChatArea.tsx
+                layout/
+                    Sidebar.test.tsx
+                    Sidebar.tsx
+    android-app/
+        App.js
+        app.json
+        App.test.js
+        package-lock.json
+        package.json
+        .expo/
+            devices.json
+            README.md
+    archive/
+        phase-1-service-platform/
+            README.md
+            backend-tests/
+                test_api.py
+                test_database.py
+    backend/
+        .env
+        alembic.ini
+        Dockerfile
+        requirements.txt
+        test_chroma.py
+        test_scrape.py
+        alembic/
+            env.py
+            README
+            script.py.mako
+            versions/
+                4ca66267829c_seed_parts_catalog.py - seed_parts_catalog
+                894e76184791_seed_experts.py - Seed experts
+                9a7e6b5c4d32_ticket_status_enum.py - ticket status enum
+                f62da3d36ae3_initial_migration.py - Initial migration
+        app/
+            config.py
+            database.py
+            main.py
+            models/
+                appliance.py
+                conversation.py
+                expert.py
+                part.py
+                service_history.py
+                ticket.py
+                __init__.py
+            modules/
+                conversations/
+                    router.py
+                    tools.py
+                health/
+                    router.py
+                knowledge/
+                    contracts.py
+                rag/
+                    ingestion.py
+                    prompts.py
+                    query_engine.py
+                    router.py
+                    service.py
+            RAG/
+                ingestion.py
+                prompts.py
+                query_engine.py
+            services/
+                llm_service.py
+            static/
+                images/
+        archive/
+            ticketing_logic_backup.md
+        documents/
+            air_conditioners/
+                pel_air_conditioners_kb.json
+            air_purifiers/
+                pel_air_purifiers_kb.json
+            deep_freezers/
+                pel_deep_freezers_kb.json
+            general_support/
+                pel_general_support_kb.json
+            led_tvs/
+                pel_led_tvs_kb.json
+            microwave_ovens/
+                pel_microwave_ovens_kb.json
+            refrigerators/
+                pel_refrigerators_kb.json
+            technician/
+                pel_technician_kb.json
+            washing_machines/
+                pel_washing_machines_kb.json
+            water_dispensers/
+                pel_water_dispensers_kb.json
+        tests/
+            conftest.py - Shared pytest fixtures for the PEL Appliance Chatbot test suite.
+            test_01_foundation.py - Tests for Issue #1: Backend Foundation + Docker Compose
+            test_02_rag_pipeline.py - Test suite for Issue #2: Structured RAG Pipeline + Knowledge Base.
+            test_03_streaming_chat.py - Issue #3 — Streaming Chat with History Persistence (RED tests)
+            test_04_ticket_lifecycle.py - Issue #4: Ticket Lifecycle + Escalation — RED Tests
+            test_05_appliances_service_parts.py - Issue #5 — Appliance Registration + Service History + Parts Catalog
+            test_rag_mock_embeddings.py
+            __init__.py
+            knowledge/
+                test_contracts.py
+    docs/
+        decisions/
+            2026-07-10-phase-1-1-scope.md
+        issues/
+            001-backend-foundation-docker.md
+            002-structured-rag-pipeline.md
+            003-streaming-chat-history.md
+            004-ticket-lifecycle-escalation.md
+            005-appliance-registration-service-history.md
+            006-customer-app-rebuild.md
+            007-technician-app-rebuild.md
+            008-voice-integration.md
+            009-multimodal-image-analysis.md
+            010-web-landing-page-demos.md
+        superpowers/
+            plans/
+                2026-07-01-pel-appliance-assistant.md
+            specs/
+                2026-07-01-pel-appliance-assistant-design.md
+                2026-07-06-pel-suite-rebuild-prd.md
+    scripts/
+        dev-backend.ps1
+    web-app/
+        .gitignore
+        eslint.config.mjs
+        next-env.d.ts - / <reference types="next" />
+        next.config.ts
+        package-lock.json
+        package.json
+        README.md
+        tsconfig.json
+        tsconfig.tsbuildinfo
+        .next/
+            dev/
+                build-manifest.json
+                package.json
+                prerender-manifest.json
+                react-loadable-manifest.json
+                routes-manifest.json
+                trace
+                cache/
+                    .rscinfo
+                    next-devtools-config.json
+                    webpack/
+                        client-development/
+                            0.pack.gz
+                            1.pack.gz
+                            2.pack.gz
+                            3.pack.gz
+                            4.pack.gz
+                            5.pack.gz
+                            index.pack.gz
+                            index.pack.gz.old
+                        server-development/
+                            0.pack.gz
+                            1.pack.gz
+                            2.pack.gz
+                            3.pack.gz
+                            index.pack.gz
+                            index.pack.gz.old
+                logs/
+                    next-development.log
+                server/
+                    app-paths-manifest.json
+                    interception-route-rewrite-manifest.js
+                    middleware-build-manifest.js
+                    middleware-manifest.json
+                    middleware-react-loadable-manifest.js
+                    next-font-manifest.js
+                    next-font-manifest.json
+                    pages-manifest.json
+                    server-reference-manifest.js
+                    server-reference-manifest.json
+                    webpack-runtime.js - /******/ (() => { // webpackBootstrap
+                    app/
+                        page.js - /*
+                        page_client-reference-manifest.js
+                        api/
+                            rag/
+                                query/
+                                    route.js - /*
+                                    route_client-reference-manifest.js
+                        _not-found/
+                            page.js - /*
+                            page_client-reference-manifest.js
+                    vendor-chunks/
+                        @swc.js
+                        next.js - /*
+                static/
+                    chunks/
+                        app-pages-internals.js - /*
+                        main-app.js - /*
+                        polyfills.js
+                        webpack.js - /******/ (() => { // webpackBootstrap
+                        _app-pages-browser_node_modules_next_dist_client_dev_noop-turbopack-hmr_js.js
+                        app/
+                            layout.js - /*
+                            page.js - /*
+                            api/
+                                rag/
+                                    query/
+                                        route.js - /*
+                            _not-found/
+                                page.js - /*
+                    css/
+                        app/
+                            layout.css
+                            page.css
+                    development/
+                        _buildManifest.js
+                        _ssgManifest.js
+                    webpack/
+                        36d5909e254c73bf.webpack.hot-update.json
+                        5adf4430d574de79.webpack.hot-update.json
+                        633457081244afec._.hot-update.json
+                        832f9713bada1d4d.webpack.hot-update.json
+                        c91648cd671d7187.webpack.hot-update.json
+                        webpack.36d5909e254c73bf.hot-update.js
+                        webpack.5adf4430d574de79.hot-update.js
+                        webpack.832f9713bada1d4d.hot-update.js
+                        webpack.c91648cd671d7187.hot-update.js
+                        app/
+                            page.832f9713bada1d4d.hot-update.js
+                types/
+                    cache-life.d.ts - Type definitions for Next.js cacheLife configs
+                    package.json
+                    routes.d.ts - This file is generated automatically by Next.js
+                    validator.ts - This file is generated automatically by Next.js
+                    app/
+                        layout.ts - File: C:\Dev\New folder\web-app\src\app\layout.tsx
+                        page.ts - File: C:\Dev\New folder\web-app\src\app\page.tsx
+                        api/
+                            rag/
+                                query/
+                                    route.ts - File: C:\Dev\New folder\web-app\src\app\api\rag\query\route.ts
+        public/
+        src/
+            app/
+                globals.css
+                layout.tsx
+                page.module.css
+                page.tsx
+                api/
+                    rag/
+                        query/
+                            route.ts

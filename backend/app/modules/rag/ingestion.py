@@ -6,7 +6,7 @@ from backend.app.config import settings
 
 def get_embeddings(texts: list[str]) -> list[list[float]]:
     """Generate vector embeddings for a list of texts using text-embedding-004 with fallback."""
-    if not settings.GEMINI_API_KEY:
+    if settings.USE_MOCK_LLM or not settings.GEMINI_API_KEY:
         # Mock embeddings fallback (768 dimensions) for testing/CI without API key
         import hashlib
         embeddings = []
@@ -149,5 +149,17 @@ def ingest_knowledge_base():
 
     print(f"Ingested {len(all_documents)} document chunks into ChromaDB.")
 
-if __name__ == "__main__":
+def ensure_knowledge_base_ingested():
+    """Populate ChromaDB only when the knowledge base collection is empty."""
+    chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PATH)
+    collection = chroma_client.get_or_create_collection(name="pel_knowledge_base")
+
+    if collection.count() > 0:
+        print(f"Knowledge base already contains {collection.count()} chunks.")
+        return
+
+    print("Knowledge base is empty. Ingesting source documents...")
     ingest_knowledge_base()
+
+if __name__ == "__main__":
+    ensure_knowledge_base_ingested()
