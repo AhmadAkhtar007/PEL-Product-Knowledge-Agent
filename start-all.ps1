@@ -10,7 +10,7 @@ Write-Host "=========================================" -ForegroundColor Green
 
 # Start the backend using the existing dev-backend script
 # -Once flag ensures it runs the docker compose up and exits, showing live container health status
-& "$RepoRoot\scripts\dev-backend.ps1" -Once
+& "$RepoRoot\scripts\dev-backend.ps1" -Once -Build
 
 Write-Host "`n=========================================" -ForegroundColor Green
 Write-Host "Select Frontend to Launch" -ForegroundColor Green
