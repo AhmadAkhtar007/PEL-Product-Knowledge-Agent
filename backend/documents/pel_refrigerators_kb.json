@@ -1,0 +1,92 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_refrigerators_2026.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Refrigerator",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "ref-warranty",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "General Refrigerator Warranties",
+      "content_brief": "All PEL Refrigerators come with a 10 Years Compressor Warranty (conventional refrigerators made before 2018 carry a shorter 3-5 year compressor warranty). Every refrigerator also carries a 1-year gas recharge warranty and 1-year spare parts warranty."
+    },
+    {
+      "id": "ref-digitron-guide",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Digitron Inverter",
+      "model": "6370, 6470, 21970 (Jumbo), 22270 (Jumbo)",
+      "title": "Digitron Inverter Operation Guide",
+      "content_brief": "For models with a Digital Smart Display, the compressor starts after 3 minutes. The panel locks after 1 minute (hold LOCK for 3 seconds to unlock). It features 4 modes: HOLIDAY (+7°C Ref, -12°C Frz), INSTA COOL (+5°C Ref, -15°C Frz), ENERGY SAVER (+3°C Ref, -18°C Frz), and FAST FREEZE (0°C or +1°C Ref, -22°C Frz). Touching either the MODE or LOCK button once wakes the display back up after it dims."
+    },
+    {
+      "id": "ref-ultra-digitron",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Ultra Digitron Inverter (Curved Glass)",
+      "model": "6370, 6470, 21970, 22270",
+      "title": "Ultra Digitron Inverter Series",
+      "content_brief": "The Ultra Digitron Inverter Series features a Curved Glass Door, Digital Smart Display, R600a refrigerant, Toughened Glass Shelves rated up to 135 kg static weight, an integrated deodorization & sterilization system (eliminates up to 99.99% of ambient bacteria and odors), 100V start up, and UPS/Solar compatibility (600W/1000VA). Capacities range from 310L to 408L. The 6370 and 6470 models feature Humidity Controllers."
+    },
+    {
+      "id": "ref-inverter-flat-vcm",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Inverter (Flat Glass & VCM)",
+      "model": "2350, 2550, 6370, 6470, 6460, 21870, 21860, 22270",
+      "title": "Inverter Series (Flat Glass & VCM Doors)",
+      "content_brief": "Inverter Series refrigerators offer up to 40% energy savings, Jet Cool 360°, and 100V start. The 2350 (233L) and 2550 (255L) use R134a, screw-in gaskets, and extended handles. Models 6370, 6470, 6460, 21870, 21860, and 22270 use R600a, flush handles, and detachable gaskets."
+    },
+    {
+      "id": "ref-non-inverter-life-pro",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Non Inverter (Flat Glass & Life Pro VCM)",
+      "model": "2000, 2200, 2350, 2550, 6370, 6470, 6360, 6460, 21870, 21970, 21860, 22270, 22260",
+      "title": "Non Inverter & Life Pro Series",
+      "content_brief": "These non-inverter models feature Insta Cool (25 Min Fast Freeze). Models 2000, 2200, 2350, and 2550 use R134a. Models 6370 and above use R600a. They have mechanical temperature control, wire shelves, and roll bond evaporators (up to 2550) or tube on sheet evaporators (6370+). Complete Light Zone LED lighting spans both the refrigerator and freezer sections on the Life Pro series."
+    },
+    {
+      "id": "ref-single-door",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Single Door Series",
+      "model": "PRLP 1100 VCM, PRLP 1400 VCM",
+      "title": "Single Door (Non Inverter) Series",
+      "content_brief": "The Single Door series consists of the PRLP 1100 VCM (109L) and PRLP 1400 VCM (135L). These models have NO freezer section—they are Refrigerator only. They use R134a refrigerant, a roll bond evaporator, and consume 100W-110W."
+    },
+    {
+      "id": "ref-inverter-board-reference",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "Inverter",
+      "model": "all",
+      "title": "Why Inverter Refrigerator Compressors Sometimes Won't Start",
+      "content_brief": "Modern PEL inverter refrigerators use an electronic control board to run the compressor at variable speed. If the compressor isn't starting or cycling normally, this can point to a control-board fault. A PEL technician identifies the exact board and compressor fitted to your model (older models before 2024 used Panasonic or older Embraco boards; 2024-onward models use newer Wanbao or Embraco FMX boards) and reads its LED flash pattern to diagnose the fault precisely before replacing anything.",
+      "content_detailed": "Legacy Models (up to 2023): Models 2350/2550 use Panasonic SVA51C14DAH compressor (1/5 hp) with DMC sBox 200W driver. Models 6350/6450/21850/21950 use Panasonic EEI76C13DCH (1/3 hp) with a DMC Box 200W driver. Models 22250/2350/2550/6350/6450 use Embraco VEMY 6H (1/5 hp) with an Embraco VCC3 module. Models 2350/2550/6450 use Embraco VESA 7H (1/4 hp). Models 21850/21950/22250 use Embraco VEGC 8H (1/3 hp). Modern Models (2024 onward): Models 6350/6450/21850/22250 use Wanbao VATZ72L (1/3 hp) with WB-51.16.18 board. Models 2000/2200/2350/2550 use Wanbao VATZ60 (1/5 hp) with WB-51.16.16 board. Model 6360 (alternate batch) uses Embraco FMXA9CE (1/3 hp) with an Embraco FMX board. Models 6360/6460/21860/21960/22260 use Wanbao VETZ110L with WB-52.16.11 board."
+    },
+    {
+      "id": "ref-board-flash-codes",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "Inverter",
+      "model": "all",
+      "title": "What the Compressor Board's Flashing LED Means",
+      "content_brief": "If your inverter refrigerator's control board LED is flashing a repeating pattern, that pattern is a diagnostic code. A PEL technician reads the exact flash sequence (for example, over-current, phase loss, locked rotor, or over-voltage) to identify the fault before starting a repair.",
+      "content_detailed": "Wanbao WB-51.16.18 (VATZ72L): 1 Flash = Over-current; 2 Flashes = Phase loss; 3 = Under-voltage; 4 = IC hardware over-current; 5 = Startup failed/locked rotor; 6 = Runaway over-speed; 7 = Over-voltage; 8 = Over-power. Wanbao WB-52.16.11 & WB-51.16.16: 3 Flashes = Over-power; 4 = Start failure; 5 = Locked rotor; 6 = Under-voltage; 7 = Over-voltage; 8 = Runtime over-current; 9 = Phase disconnect; 10 = HW over-current; 11 = Over-temp; 12 = ADC failure; 13 = Startup instant over-current. Embraco FMXA9CE / VES 2456 DJF 00: 1 Flash (15s cycle) = Normal; 2 Flashes (5s cycle) = Comms signal lost; 3 Flashes (5s cycle) = Inverter control component breakdown; 4 Flashes (5s cycle) = Compressor hardware fault; 1 Flash (0.5s cycle) = High-temp shutdown."
+    },
+    {
+      "id": "ref-alternative-power-solar-ups",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Inverter",
+      "model": "all",
+      "title": "Running Your Inverter Refrigerator on Solar or a UPS",
+      "content_brief": "PEL inverter refrigerators can run on a solar off-grid setup or a UPS, but the backup system needs to be sized correctly. For solar, you'd need mono/polycrystalline PV panels, a charge controller/inverter, and a high-ampere lead-acid or gel-cell battery bank — a pure sine wave inverter of at least 600W-1kVA with 75-165 Ah of battery storage is the minimum. For a UPS, you'd want at least 1-3kVA pure sine wave capacity with a baseline load of 600W or more, and the same 75-165 Ah battery range. If other household appliances share the same circuit, size the system up accordingly."
+    }
+  ]
+}

@@ -44,122 +44,121 @@ def get_embeddings(texts: list[str]) -> list[list[float]]:
         print(f"Fallback to gemini-embedding-001 failed: {e}")
         raise e
 
-def ingest_knowledge_base():
-    """Scan backend/documents/ for *_kb.json files, generate embeddings, and upsert to ChromaDB."""
-    chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PATH)
-    
-    try:
-        chroma_client.delete_collection(name="pel_knowledge_base")
-        print("Deleted existing collection 'pel_knowledge_base' to reset dimensions.")
-    except Exception:
-        pass
+DOCUMENTS_DIR = "backend/documents"
+COLLECTION_NAME = "pel_knowledge_base"
 
-    collection = chroma_client.get_or_create_collection(name="pel_knowledge_base")
 
-    doc_dir = "backend/documents"
-    if not os.path.exists(doc_dir):
-        print(f"Error: {doc_dir} directory does not exist.")
-        return
+def load_kb_files(documents_dir: str) -> list[str]:
+    import glob
+    pattern = os.path.join(documents_dir, "*_kb.json")
+    files = sorted(glob.glob(pattern))
+    if not files:
+        print(f"No *_kb.json files found in {documents_dir}.")
+    return files
 
-    all_documents = []
-    all_metadatas = []
-    all_ids = []
-    
-    for root, dirs, files in os.walk(doc_dir):
-        for file in files:
-            if file.endswith("_kb.json"):
-                file_path = os.path.join(root, file)
-                print(f"Processing knowledge base file: {file_path}")
-                with open(file_path, "r", encoding="utf-8") as f:
-                    try:
-                        data = json.load(f)
-                    except Exception as e:
-                        print(f"Error parsing JSON in {file_path}: {e}")
-                        continue
-                
-                source_doc = data.get("source_document", file)
-                product_category = data.get("product_category", "Unknown")
-                brand = data.get("brand", "PEL")
-                catalog_year = data.get("catalog_year", 2024)
-                chunks = data.get("chunks", [])
-                
-                for chunk in chunks:
-                    chunk_id = chunk.get("id")
-                    audience = chunk.get("audience", "customer")
-                    series = chunk.get("series") or "all"
-                    model_val = chunk.get("model")
-                    title = chunk.get("title", "")
-                    content = chunk.get("content", "")
-                    
-                    if not content.strip():
-                        continue
-                        
-                    # Split models if multiple models are separated by slash
-                    models = []
-                    if model_val:
-                        if "/" in str(model_val):
-                            models = [m.strip() for m in str(model_val).split("/") if m.strip()]
-                        else:
-                            models = [str(model_val).strip()]
-                    else:
-                        models = ["all"]
-                        
-                    for idx, model in enumerate(models):
-                        # Create unique ID for each split model chunk
-                        unique_id = chunk_id
-                        if len(models) > 1:
-                            unique_id = f"{chunk_id}_{idx}"
-                            
-                        metadata = {
-                            "source": source_doc,
-                            "product_category": product_category,
-                            "brand": brand,
-                            "catalog_year": catalog_year,
-                            "audience": audience,
-                            "series": series,
-                            "model": model,
-                            "title": title
-                        }
-                        
-                        all_documents.append(content)
-                        all_metadatas.append(metadata)
-                        all_ids.append(unique_id)
 
-    if not all_documents:
-        print("No documents found to ingest.")
-        return
+def build_vector_entries(kb_file: str) -> list[dict]:
+    """Turn one category JSON file into a flat list of {id, text, metadata}
+    entries ready for embedding — one entry per disclosure tier per chunk."""
+    with open(kb_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    print(f"Embedding {len(all_documents)} chunks...")
-    batch_size = 50
-    all_embeddings = []
-    for i in range(0, len(all_documents), batch_size):
-        batch_texts = all_documents[i:i+batch_size]
-        batch_embs = get_embeddings(batch_texts)
-        all_embeddings.extend(batch_embs)
+    product_category = data.get("product_category", "Unknown")
+    source_document = data.get("source_document", os.path.basename(kb_file))
+    brand = data.get("brand", "PEL")
+    catalog_year = data.get("catalog_year")
 
-    print(f"Upserting {len(all_documents)} vectors into ChromaDB...")
-    for i in range(0, len(all_documents), batch_size):
-        end_idx = min(i + batch_size, len(all_documents))
-        collection.upsert(
-            ids=all_ids[i:end_idx],
-            documents=all_documents[i:end_idx],
-            embeddings=all_embeddings[i:end_idx],
-            metadatas=all_metadatas[i:end_idx]
-        )
+    entries = []
+    for chunk in data.get("chunks", []):
+        chunk_id = chunk["id"]
+        base_metadata = {
+            "parent_id": chunk_id,
+            "chunk_type": chunk.get("chunk_type", "spec"),
+            "hazard_level": chunk.get("hazard_level", "none"),
+            "series": chunk.get("series", ""),
+            "model": chunk.get("model", ""),
+            "title": chunk.get("title", ""),
+            "product_category": product_category,
+            "source_document": source_document,
+            "brand": brand,
+            "catalog_year": catalog_year if catalog_year is not None else "",
+            "has_detailed": bool(chunk.get("content_detailed")),
+        }
 
-    print(f"Ingested {len(all_documents)} document chunks into ChromaDB.")
+        brief_text = chunk.get("content_brief", "")
+        if brief_text:
+            entries.append({
+                "id": f"{chunk_id}::brief",
+                "text": brief_text,
+                "metadata": {**base_metadata, "disclosure": "brief"},
+            })
+
+        detailed_text = chunk.get("content_detailed")
+        if detailed_text:
+            entries.append({
+                "id": f"{chunk_id}::detailed",
+                "text": detailed_text,
+                "metadata": {**base_metadata, "disclosure": "detailed"},
+            })
+
+    return entries
+
+
+def ingest_knowledge_base(documents_dir: str = DOCUMENTS_DIR, reset: bool = True) -> None:
+    client = chromadb.PersistentClient(path=settings.CHROMA_PATH)
+
+    if reset:
+        try:
+            client.delete_collection(COLLECTION_NAME)
+            print(f"Deleted existing collection '{COLLECTION_NAME}' to reset dimensions.")
+        except Exception:
+            pass  # collection didn't exist yet — fine on first run
+
+    collection = client.get_or_create_collection(COLLECTION_NAME)
+
+    files = load_kb_files(documents_dir)
+    total = 0
+
+    for kb_file in files:
+        entries = build_vector_entries(kb_file)
+        if not entries:
+            print(f"WARNING: no chunks found in {os.path.basename(kb_file)}")
+            continue
+
+        ids = [e["id"] for e in entries]
+        docs = [e["text"] for e in entries]
+        metadatas = [e["metadata"] for e in entries]
+
+        # Process in batches of 50 to avoid hitting API limits
+        batch_size = 50
+        print(f"Ingesting {len(entries)} vector entries from {os.path.basename(kb_file)}...")
+        for i in range(0, len(entries), batch_size):
+            batch_ids = ids[i:i+batch_size]
+            batch_docs = docs[i:i+batch_size]
+            batch_metadatas = metadatas[i:i+batch_size]
+            
+            embeddings = get_embeddings(batch_docs)
+
+            collection.upsert(
+                ids=batch_ids, documents=batch_docs, metadatas=batch_metadatas, embeddings=embeddings
+            )
+        total += len(entries)
+
+    print(f"\nDone. {total} total vector entries in collection '{COLLECTION_NAME}'.")
+
 
 def ensure_knowledge_base_ingested():
     """Populate ChromaDB only when the knowledge base collection is empty."""
     chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PATH)
-    collection = chroma_client.get_or_create_collection(name="pel_knowledge_base")
+    collection = chroma_client.get_or_create_collection(name=COLLECTION_NAME)
 
     if collection.count() > 0:
         print(f"Knowledge base already contains {collection.count()} chunks.")
         return
 
     print("Knowledge base is empty. Ingesting source documents...")
-    ingest_knowledge_base()
+    ingest_knowledge_base(reset=False)
+
 
 if __name__ == "__main__":
     ensure_knowledge_base_ingested()

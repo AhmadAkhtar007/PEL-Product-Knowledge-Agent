@@ -233,9 +233,9 @@ async def conversation_query_stream(
         # Check escalation
         import re
         escalate = False
-        if re.search(r'ESCALATE_(complaint|expert)', accumulated_response):
+        if re.search(r'\[ESCALATE:.*?\]', accumulated_response):
             escalate = True
-            accumulated_response = re.sub(r'ESCALATE_(complaint|expert)[^\w]*', '', accumulated_response).strip()
+            accumulated_response = re.sub(r'\[ESCALATE:.*?\][^\w]*', '', accumulated_response).strip()
             if not accumulated_response:
                 accumulated_response = "I recommend having a technician look at this. Let me escalate this for you."
 

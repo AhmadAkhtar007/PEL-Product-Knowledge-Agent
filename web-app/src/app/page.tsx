@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import styles from './page.module.css';
 
 type Source = {
@@ -121,9 +123,17 @@ export default function ChatBot() {
           {messages.map((msg) => (
             <div key={msg.id} className={`${styles.messageWrapper} ${styles[msg.role]}`}>
               <div className={styles.message}>
-                {msg.content.split('\n').map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
-                ))}
+                {msg.role === 'user' ? (
+                  msg.content.split('\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))
+                ) : (
+                  <div className={styles.markdown}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
+                )}
                 
                 {msg.sources && msg.sources.length > 0 && (
                   <div className={styles.citations}>

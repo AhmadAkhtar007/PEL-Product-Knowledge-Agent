@@ -1,0 +1,36 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_support_routing.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Support",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "support-app-whatsapp",
+      "chunk_type": "routing",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "Khidmat Markaz App & WhatsApp Support",
+      "content_brief": "For unresolved complaints, advanced technical issues, booking a technician, claiming a warranty, or registering a product, customers should be directed to use the PEL Khidmat Markaz App (which provides GPS tracking of technicians). Alternatively, customers can contact official PEL WhatsApp Support at 03001102103 or call the 24-hour PEL CARE hotline at (042) 111-102-103."
+    },
+    {
+      "id": "support-warranty-matrix",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "PEL Warranty Policy — Full Matrix Across Products",
+      "content_brief": "Warranty length varies by product and component. Refrigerators (2018 or newer, and all inverter models): 10 years compressor. Refrigerators made before 2018: 3-5 years compressor. Deep Freezers (conventional): 2 years compressor. Deep Freezers (inverter) and Vertical Freezers: 10 years and 2 years compressor respectively. Split ACs (inverter): 10 years compressor, 4-5 years PCB. Split ACs (conventional/non-inverter) and Floor-Standing Cabinet ACs: 3 years compressor. Water Dispensers: 1 year compressor. Microwave Ovens: 2 years on the magnetron tube only. LED TVs (2024 or newer): 2 years parts and 2 years display panel; older TVs: 1 year each. Washing Machines (Semi-Automatic, 2021 or newer): 3 years motor; older Semi-Automatic: 1 year motor. Fully Automatic Washing Machines: 10 years motor (was 5 years before the 2021 production change). Dynamic Air Purifiers: 2 years on both the motor and sensor components. Every product category also carries a standard 1-year spares warranty and 1-year gas recharge warranty (where applicable)."
+    },
+    {
+      "id": "support-b2b-commercial-cabinets",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "Commercial / B2B",
+      "model": "HICO Series and similar commercial cabinets",
+      "title": "Commercial Cabinet Warranty (B2B Accounts)",
+      "content_brief": "PEL has specialized commercial coverage agreements for large accounts like Ice Berg (HICO Series freezer cabinets), Unilever (Wall's Ice Cream), and EFL (Omore Ice Cream). These commercial cabinets get free on-site repair and refrigerant diagnostic/charging cover for 1 year from the documented date of manufacture, verified via the production code plate. Beyond that, sealed compressor coverage runs 3 years (2.5 years for Omore units specifically), the outer chassis cabinet shell is covered for 5 years, and secondary electrical/mechanical fittings are covered for 1 year. This is a separate program from standard retail/residential warranty terms."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_washing_machine_2026.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Washing Machine",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "wm-fully-auto",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Fully Automatic (PAWM)",
+      "model": "PAWM 900, 900i, 1100, 1100i",
+      "title": "Fully Automatic Series",
+      "content_brief": "The Fully Automatic PAWM series features Artificial Intelligence wash and 'Brain Technology' (resumes exactly where it stopped after power failure). Models with an 'i' (900i, 1100i) feature a Smart Touch glass seamless panel, while non-i models use a capacitive Soft Touch panel. Specs: 10 water levels, 10 program routines, tempered glass lid with damper, IPX4 water-ingress rating, integrated memory backup. Water pressure operating range is 0.03-0.78 MPa. PAWM 900/900i consume 380W Wash/260W Spin and weigh about 34kg. PAWM 1100/1100i consume 420W Wash/280W Spin and weigh about 41kg."
+    },
+    {
+      "id": "wm-semi-auto",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Semi Automatic (PWMS)",
+      "model": "PWMS 8050, PWMS 1250, PWM-1050T (Twin Tub)",
+      "title": "Semi Automatic Series",
+      "content_brief": "The Semi Automatic PWMS series uses a manual water inlet and features an Anti-Rust body, Big Pulsator, Rat Guard Base Plate, and Gear Train Technology (reduces direct motor load). PWMS 8050 consumes 350W, and PWMS 1250 consumes 450W. PEL also offers a Semi-Automatic Twin Tub model (PWM-1050T) with dual split wash/spin tubs in an anti-rust resin shell, for households that prefer manually moving laundry between a wash tub and a separate spin tub."
+    },
+    {
+      "id": "wm-component-reference",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "Fully Automatic",
+      "model": "PAWM-900, PAWM-1100",
+      "title": "How PAWM-900 & PAWM-1100 Internal Components Differ",
+      "content_brief": "The 900 and 1100 capacity models use different-rated internal components matched to their size — different drive motor power, suspension parts, gearbox type, and drive belt. A PEL technician uses the correct model-specific part when servicing either machine; these aren't interchangeable between the two models.",
+      "content_detailed": "Drive Motors: Model 900 uses a 150W baseline motor; Model 1100 uses a 180W high-torque motor. Suspension Struts: Model 900 uses standard compression rod springs; Model 1100 uses struts 10mm shorter in a cross-axis orientation (Front: Upper/Lower Yellow + Upper/Lower White vs. Model 900's Upper Yellow/Lower White). Gearbox: Model 900 uses a multi-stage Double Gear; Model 1100 uses a heavy-duty Single Gear. Run Capacitors: Model 900 uses an 11µF metal-can capacitor; Model 1100 uses 15µF. Agitator Drive Shaft: Model 900 uses an injection-molded plastic spline; Model 1100 uses a cast aluminum alloy axle. Drive V-Belts: Fully Automatic machines use size O-480E (Metric C-22); Semi-Automatic machines use size O-695E."
+    },
+    {
+      "id": "wm-fault-codes",
+      "chunk_type": "error_code",
+      "hazard_level": "none",
+      "series": "Fully Automatic",
+      "model": "PAWM-900, PAWM-1100, PAWM-900i, PAWM-1100i",
+      "title": "Fully Automatic Washing Machine Fault Codes — Meaning & What To Do",
+      "content_brief": "E0 means an internal computing error — unplug the machine for 60 seconds, then plug it back in. E1 means the machine timed out waiting for water (20 minutes without reaching target level) — check that the water supply is on and clean the inlet mesh filter. E2 means drainage timed out (7 minutes) — check the drain hose for kinks and clear any debris from the check-valve. E3 means the door/lid safety interlock opened during a spin cycle — make sure the door is fully closed and try again. E4 means an imbalance was detected during spin — redistribute the laundry load evenly and restart. E5 is a flooding safety override — the machine will auto-drain; check for a stuck water inlet valve. E6 means the water-level sensor has a wiring or signal-tracking fault — this is an internal wiring issue and needs a PEL technician. E7 means the child lock was engaged — check whether it's active, close the door fully, and hold the program/delay keys together to disengage it."
+    }
+  ]
+}

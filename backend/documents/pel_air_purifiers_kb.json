@@ -1,0 +1,18 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_air_purifier_2026.txt",
+  "product_category": "Air Purifier",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "ap-overview",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "PAP",
+      "model": "PAP-400",
+      "title": "PEL PAP-400 Air Purifier Overview",
+      "content_brief": "The PEL PAP-400 features a 4-Stage Filtration System: Pre-Filter, Carbon Filter, HEPA (Grade 13), and Ion Generator (Anion). It captures 99.95% of microscopic particles (PM 2.5), mold, bacteria, and allergens. It has a CADR of 400 m3/H and covers an application area of 50m2 (540 Sqft). Features include a 3-color Air Quality Indicator, digital display, 4 fan modes, child lock, timer, and a Filter Replacement Reminder (2200 hours). It comes with a 2-Year Warranty on parts only, and shares the same 2-year warranty structure as PEL's other sensor-driven appliances."
+    }
+  ]
+}

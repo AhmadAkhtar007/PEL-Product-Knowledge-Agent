@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_microwave_2025.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Microwave Oven",
+  "brand": "PEL",
+  "catalog_year": 2025,
+  "chunks": [
+    {
+      "id": "mw-warranty",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "Microwave Warranty",
+      "content_brief": "All PEL Microwaves come with a 2-Year Magnetron Warranty and 1-year spare parts warranty."
+    },
+    {
+      "id": "mw-solo",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Solo Manual & Digital",
+      "model": "PMO-20 W/B M CLASSIC, PMO-20 BH CLASSIC PLUS, PMO-23 SLM SILVER LINE, PMO-23 SLD SILVER LINE",
+      "title": "Solo Series (Manual & Digital)",
+      "content_brief": "Solo models provide basic microwave functionality. Manual models use dials, while the SLD Silver Line features a digital touch panel."
+    },
+    {
+      "id": "mw-grill",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Digital Grill",
+      "model": "PMO-23/26/30 DESIRE, PMO-23/26 CHEF, PMO-30 BG GLAMOUR",
+      "title": "Digital Grill Models",
+      "content_brief": "The Desire, Chef, and Glamour series feature digital touch panels and an added Grill function for crispy food tops. The Chef Digital series (23L/26L) is a premium tier with automated cooking programs and a dark mirror finish."
+    },
+    {
+      "id": "mw-advanced",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Convection & Kitchen Pro",
+      "model": "PMO-25/30 CONVECTION, PMO-23/28 KITCHEN PRO GR, PMO-26 KITCHEN PRO CAF, PMO-30 KITCHEN PRO ICAF",
+      "title": "Convection & Kitchen Pro Air Fryer Models",
+      "content_brief": "Convection models (25L/30L) add baking capabilities using a Triple Technology design that combines microwave emission, a direct-glow grill ring (1000W), and forced-air convection (1950W) in one cavity, plus an Integrated Pizza Plate with manual rotation and multi-stage cooking memory. The high-end Kitchen Pro series offers advanced features like Air Frying (PMO-26 KITCHEN PRO CAF) and Inverter technology combined with Air Frying (PMO-30 KITCHEN PRO ICAF)."
+    },
+    {
+      "id": "mw-power-levels-tap-settings",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Convection",
+      "model": "all",
+      "title": "What the Power Level / Tap Settings Mean",
+      "content_brief": "The tap or power-level setting on a PEL convection microwave controls how much microwave power is used, or switches to a grill/convection combination. Tap 1 (P-100) is full 100% microwave power. Taps 2-10 step down in 10% increments (P-90 down to P-10), useful for gentler reheating or defrosting. Tap 11 (P-00) is essentially off/standby. Two combination settings blend microwave and grill: Tap 1 combination is 30% microwave / 70% grill, and Tap 2 combination is 55% microwave / 45% grill. For pure convection baking, temperature setpoints run from 110°C up to 200°C in 10° steps depending on the tap selected. There are also 4 pre-set hybrid combination programs at fixed temperatures: Program 1 (110°C), Program 2 (140°C), Program 3 (170°C), and Program 4 (200°C)."
+    },
+    {
+      "id": "mw-error-codes",
+      "chunk_type": "error_code",
+      "hazard_level": "electrical",
+      "series": "Convection",
+      "model": "all",
+      "title": "Microwave Error Codes — What They Mean & What You Can Do",
+      "content_brief": "E01 means the oven cavity is reporting an unsafe high temperature — press Stop/Cancel and let the unit cool before using it again. E02 means the surrounding room temperature is reading too low for normal operation; this usually resolves once the room warms up, and if it doesn't, contact PEL support. E03 means there's a fault in the internal thermal safety circuit — stop using the unit and have a PEL technician inspect it before further use. It's normal for the cooling fan to keep running for about 3 minutes after any cook cycle longer than 2 minutes; that's not a fault.",
+      "content_detailed": "E01: Cabin temp exceeds safe limits (Super High Temperature Alert). Field action: Press Stop/Cancel, verify sensor resistance parameters. E02: Ambient temp drops below tolerance (Super Low Temperature Alert). Field action: Cycle input power line. E03: Thermal processing circuit grounding short. Field action: Replace thermal NTC/PTC component block. Cooling Fan Rule: Runs 3 mins post-cycle if task > 2 mins continuously, to cool internal electronics."
+    }
+  ]
+}

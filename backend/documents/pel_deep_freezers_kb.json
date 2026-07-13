@@ -1,0 +1,73 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_deep_freezers_2026.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Deep Freezer",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "df-chest-common",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "ARCTIC PROFREEZE, ARCTIC Inverteron",
+      "model": "all PDF70 and PDIN70 models",
+      "title": "Chest Freezer Common Specs",
+      "content_brief": "Both ARCTIC PROFREEZE (PDF) and Inverteron (PDIN) chest freezers use R-600a refrigerant, reach -33°C Extreme Freezing, and have 70mm thick insulation. PEL's deep freezer range splits into a Non-Inverter line (Arctic Pro Freeze, Arctic Pro Freeze Extended) and an Inverter line (Arctic InverterOn, using the Smart sBox control kit), both built with extra-fast heat absorption, ultra-silent \"Calme\" technology, 100% solid copper coiling, and reinforced steel hinges."
+    },
+    {
+      "id": "df-inverteron",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "ARCTIC Inverteron",
+      "model": "PDIN70-100, PDIN70-130, PDIN70-150, PDINT70-155, PDIN70-180",
+      "title": "ARCTIC Inverteron Specifics",
+      "content_brief": "The ARCTIC Inverteron series stands out with a 110V low voltage start and is compatible with 600W-1000VA UPS & Generators."
+    },
+    {
+      "id": "df-twin",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "ARCTIC PROFREEZE & Inverteron",
+      "model": "PDFT70-155, PDINT70-155",
+      "title": "Twin (Freezer + Fridge) Models",
+      "content_brief": "Models containing a 'T' (e.g., PDFT70-155, PDINT70-155) have a total capacity of 410 Liters split physically into two compartments: 261 Liters Freezer and 149 Liters Refrigerator."
+    },
+    {
+      "id": "df-vertical",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Vertical Freezers (PVF)",
+      "model": "PVF INV 6D GD, PVF INV 7D GD, PVF 6D, PVF 7D",
+      "title": "Vertical Freezers (PVF Series)",
+      "content_brief": "PEL Vertical Freezers feature 80mm insulation and -30°C super freezing. Glass Door (GD) models are Inverter-based, use R600a, and consume 108W. VCM models are Non-Inverter, use R134a, and consume 152W. The 6D models have 239L capacity (6 drawers, front-swing single solid door with pull-out drawer bins), while the 7D models have 281L capacity (7 drawers). All have a 10 Years Compressor Warranty."
+    },
+    {
+      "id": "df-non-inverter-lineup",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Non-Inverter Chest Freezers",
+      "model": "PDF 100, PDF 130, PDF 150, PDF 135, PDF 155",
+      "title": "Non-Inverter Chest Freezer Lineup",
+      "content_brief": "PEL's non-inverter chest freezer lineup spans 275L (PDF 100) to 410L (PDF 150/155) internal volume. PDF 100/130/150 use a single-lid door; PDF 135/155 use a double-lid door for split access. Power consumption ranges from 152W to 183W, and all run on standard 220V/50Hz power with R600a refrigerant (60-65g depending on size)."
+    },
+    {
+      "id": "df-inverter-lineup",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Inverter Chest Freezers (PDINT)",
+      "model": "PDINT 100, PDINT 130, PDINT 150, PDINT 135, PDINT 155",
+      "title": "Inverter Chest Freezer Lineup",
+      "content_brief": "PEL's inverter chest freezer lineup mirrors the non-inverter range in size (275L to 410L) but uses inverter compressor technology for more efficient, variable-speed cooling. Same door configurations (single-lid for 100/130/150, double-lid for 135/155) and similar power draw (152-183W) as the non-inverter equivalents."
+    },
+    {
+      "id": "df-refrigerant-system-specs",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "refrigerant",
+      "series": "Deep Freezer",
+      "model": "PDF-100, PDF-135",
+      "title": "About the Sealed Refrigerant System",
+      "content_brief": "PDF-100 and PDF-135 deep freezers use a sealed refrigerant system with a gas charge and capillary tube size calibrated precisely at the factory for that model. This system should only be opened, repaired, or recharged by a certified PEL technician — it's not a user-serviceable part.",
+      "content_detailed": "Model PDF-100: 60g R600a gas payload, capillary 0.031\" ID (10ft 5in length), 4.25 L/min fluid flow target, HXK95AT fixed-speed induction compressor with inline 4µF capacitor, 3ft suction return line, 6-pass-loop evaporator coil, medium wire-tube condenser (WTC), 12g molecular sieve copper filter dryer, suction-profile condenser fan orientation, Danfoss 077B1719 EBD thermostat. Model PDF-135: 65g R600a, capillary 0.036\" ID (13ft 5in length), 5.51 L/min flow target, HXK12AT induction compressor with inline 4µF capacitor, 4ft suction return line, 6-pass-loop evaporator coil, medium wire-tube condenser, same 12g filter dryer spec, Danfoss EBD 095X1129LA thermostat."
+    }
+  ]
+}

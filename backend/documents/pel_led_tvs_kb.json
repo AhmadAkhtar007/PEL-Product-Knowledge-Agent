@@ -1,0 +1,91 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_led_tv_2026.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "LED TV",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "tv-warranty",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "LED TV Warranty",
+      "content_brief": "PEL LED TVs made from 2024 onward feature a 2+2 Panel & Parts Warranty (2 years parts, 2 years display panel). TVs from before the 2024 batch carry a shorter 1-year parts and 1-year panel warranty."
+    },
+    {
+      "id": "tv-smart-50-58",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "QLED Google TV",
+      "model": "PLD-58QUS, PLD-50QUS",
+      "title": "50\" and 58\" QLED ULTRA HD TVs",
+      "content_brief": "The 58-inch (PLD-58QUS) and 50-inch (PLD-50QUS) QLED TVs run Google TV (Android 14) and feature ULTRA HD (3840 x 2160) resolution, 2GB RAM, 16GB Internal Memory, HDR 10, Dolby Audio, Bluetooth 5.1, and Chromecast built-in."
+    },
+    {
+      "id": "tv-smart-32-43",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "QLED Google TV",
+      "model": "PLD-43QFS, PLD-32QHS",
+      "title": "43\" and 32\" QLED TVs",
+      "content_brief": "The 43-inch (PLD-43QFS) is FULL HD (2560x1440) and the 32-inch (PLD-32QHS) is HD READY (1280x720). Both run Google TV (Android 14) with 1.5GB RAM and 8GB Internal Memory."
+    },
+    {
+      "id": "tv-standard",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Standard LED TV",
+      "model": "PLD-32HR",
+      "title": "32\" Standard Non-Smart TV",
+      "content_brief": "The PLD-32HR is a 32-inch Standard LED TV. It is non-smart (no Android), HD READY (1280x720), with a bezel-less design."
+    },
+    {
+      "id": "tv-resolution-standards",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "TV Resolution Standards Explained",
+      "content_brief": "Standard Definition (480p) is 720×480 pixels (about 345,600 total pixels). High Definition / HD Ready (720p) is 1280×720 (about 921,600 pixels). Full HD (1080p) is 1920×1080 (about 2,073,600 pixels) — roughly double the detail of HD. Ultra HD / 4K is 3840×2160 (about 8,294,400 pixels) — 4 times the detail of Full HD. This is why a 4K TV shows noticeably sharper detail than an HD Ready set of the same screen size."
+    },
+    {
+      "id": "tv-power-diagnostics",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "all",
+      "model": "all",
+      "title": "Dead Screen, Distorted Picture, or No Sound — What's Likely Wrong",
+      "content_brief": "If your TV won't power on at all, this usually points to an internal power-supply fault — could be anything from the wall outlet, the power cord, an internal fuse, or the main power board. If the picture is distorted or has vertical lines, it usually points to a loose ribbon cable connection or a panel-timing (T-CON) fault inside the set. If there's no sound, it's usually a speaker fault, unless the volume or mute settings are the simple cause. Internal TV power-supply components can retain a high electrical charge even after the TV is unplugged, so diagnosis and repair should only be done by a certified PEL technician — do not open the back panel yourself.",
+      "content_detailed": "Complete Power Failure Diagnostic Path: Check wall outlet supply — if absent, troubleshoot the main circuit breaker. If 220V AC is present, measure voltage at the main power cord board input; if absent, replace the power cord or repair header solder joints. If 220V input is OK, de-energize and measure ceramic input fuse continuity; if open, check the bridge rectifier for shorts and replace the fuse. If the fuse is OK, measure the filtered DC rail at the main filter capacitor; if dead/low, replace the bridge rectifier block. If the 310V DC bus is OK, check the secondary 5V logic rail; if dead, replace the secondary SMPS switching IC. If 5V aux is OK, verify the key matrix ribbon cable connection; if damaged, trim/align/replace the ribbon; if firm, the main chip is locked up and the main board needs replacing. Display Malfunction / Visual Line Distortion: With chassis powered on and backlight active but no video or vertical color lines — power down, access the panel, decouple the LVDS ribbon, clean gold contact pins with isopropyl fluid, re-seat the ribbon and re-energize. If the issue persists, measure VGL/VGH/VCOM at T-CON test points; if flat or shorted, replace the T-CON module; if not, the internal panel substrate is cracked and the full LCD panel assembly needs replacing. Internal Sound System Diagnostics: Left channel uses a 3-wire discrete connector, right channel uses a 2-wire discrete connector. Sound Loss Sequence: verify volume isn't at zero and MUTE isn't active; check audio settings route to analog outputs (not digital optical); open the rear panel and inspect speaker voice coils for thermal damage or physical splits; measure voice coil resistance at the connector header (nominal range 4.0-8.0 Ω) — if resistance reads open (∞ Ω), replace the speaker; if resistance is normal but signal tracing is dead at the processing chip output, replace the main board."
+    },
+    {
+      "id": "tv-youtube-lag-fix",
+      "chunk_type": "software_troubleshooting",
+      "hazard_level": "none",
+      "series": "Smart TV (Google TV / Android)",
+      "model": "all",
+      "title": "YouTube or Streaming App Running Slow / Lagging",
+      "content_brief": "If YouTube or another streaming app is lagging on your smart TV, this is usually caused by network jitter, a full local app cache, or the installed app version being out of sync with the streaming service's servers. Don't try to fix this by updating through the Google Play Store — instead, clear the app's cache using the TV's system memory/storage tools and fully power-cycle the TV. If it's still slow, contact PEL support about getting the optimized app version loaded via USB."
+    },
+    {
+      "id": "tv-mirroring-bug-fix",
+      "chunk_type": "software_troubleshooting",
+      "hazard_level": "none",
+      "series": "Smart TV (Google TV / Android)",
+      "model": "all",
+      "title": "Screen Mirroring Issue or Display Looks Flipped/Inverted",
+      "content_brief": "This is usually caused by a router configuration issue dropping data packets, or the TV's network device registration not matching properly. A PEL technician can check this by entering the engineering diagnostics menu (via a specific remote button sequence) to verify the TV's network hardware address matches what's on record — contact PEL support if this doesn't resolve on its own after a router restart."
+    },
+    {
+      "id": "tv-cursor-bug-fix",
+      "chunk_type": "software_troubleshooting",
+      "hazard_level": "none",
+      "series": "Smart TV (Google TV / Android)",
+      "model": "all",
+      "title": "On-Screen Cursor / Pointer Missing or Frozen",
+      "content_brief": "If the on-screen pointer disappears or freezes on a smart TV with a touch-style remote, press and hold the F1 button on the remote for 3 seconds. This reinitializes the cursor alignment and should bring the pointer back."
+    }
+  ]
+}

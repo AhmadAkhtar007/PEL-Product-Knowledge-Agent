@@ -1,0 +1,207 @@
+{
+  "schema_version": "2.0",
+  "source_document": "pel_ac_catalog_2026.txt + pel_technician_manual_2025.md (full pass)",
+  "product_category": "Air Conditioner",
+  "brand": "PEL",
+  "catalog_year": 2026,
+  "chunks": [
+    {
+      "id": "ac-warranty-tech",
+      "chunk_type": "warranty",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "General AC Warranties & Core Technologies",
+      "content_brief": "All PEL Air Conditioners feature a 10 Years Compressor Warranty and 4-5 Years PCB kit Warranty on inverter models (conventional/non-inverter split ACs carry a 3-year compressor warranty and floor-standing cabinet units also carry 3 years). Every unit carries a 1-year gas recharge warranty and 1-year spare parts warranty. Core technologies include Platinum Shield Coating (2X durability against corrosion), InverterOn, R-32 eco-friendly refrigerant, Self-Clean Evaporator, and Wi-Fi Control."
+    },
+    {
+      "id": "ac-165v-startup",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "C, A, FIT, JUMBO",
+      "model": "Cool Breeze, Cool Pro, Atom, Eco Gear, Aero Extend, Fit Black, Jumbo DC Prime",
+      "title": "165V Startup Voltage Models",
+      "content_brief": "The following models operate with a minimal start-up voltage of 165 Volts: Cool Breeze InverterOn (12K/18K, R32), Cool Pro InverterOn (12K/18K, R32), Atom InverterOn (12K/18K, R32), Eco Gear/ACE PRO (12K/18K, R32), Aero Extend (12K/18K, R32), Fit Black T3 (12K/18K/24K, R410a), and Jumbo DC Prime (12K/18K/24K, R410a/R32)."
+    },
+    {
+      "id": "ac-155v-startup",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "S SERIES",
+      "model": "Sublime Neo T3 InverterOn",
+      "title": "155V Startup Voltage Models",
+      "content_brief": "The Sublime Neo T3 InverterOn (12K/18K) features a minimal start-up voltage of 155 Volts, utilizes R32 refrigerant, and delivers powerful cooling up to 50°C (T3)."
+    },
+    {
+      "id": "ac-140v-startup",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "FIT, TURBO, JUMBO",
+      "model": "Fit Graphite, Turbo DC Ultimate, Jumbo X, Jumbo Cool, Jumbo Pro",
+      "title": "140V Ultra Low Startup Voltage Models",
+      "content_brief": "For extreme low voltage areas, PEL offers models with a minimal start-up voltage of 140 Volts: Fit Graphite T3 InverterOn (12K/18K/24K, R32), Turbo DC Ultimate T3 (12K/18K/24K, R32), Jumbo X T3 (12K/18K/24K, R32), Jumbo Cool (12K/18K/24K, R32), and Jumbo Pro T3 (12K/18K, R32)."
+    },
+    {
+      "id": "ac-floor-standing",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Floor Standing",
+      "model": "BOLD+, SUPREME, ULTIMATE+",
+      "title": "Floor Standing Models",
+      "content_brief": "PEL Floor Standing ACs include: BOLD+ (R410a, 18M long distance airflow), SUPREME (R410a, Power Outage Memory feature), and ULTIMATE+ (R32, 18M airflow, self-clean). All are Heat & Cool capable with 4D Air Flow. The 48K Ultimate Inverter and 48K Bold Plus Fixed-Speed cabinet units run on 3-phase 380V power rather than standard single-phase household voltage — this affects the electrical connection required at installation."
+    },
+    {
+      "id": "ac-remote-control-guide",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Inverter (Panasonic-style remote)",
+      "model": "all",
+      "title": "AC Remote Control — Buttons & Display Icons",
+      "content_brief": "The AC remote has buttons for Temp Up and Temp Down, ON/OFF, MODE (cycles between cooling, heating, fan-only, dehumidify, and auto/FEEL), FAN speed, SLEEP, horizontal and vertical swing (H-SWING / V-SWING) to control air direction, HEALTH, ECO (power-saving mode), TIMER (sets auto-off), DISPLAY (toggles the unit's screen illumination on/off), and TURBO (fast cooling/heating boost). On the display: a snowflake icon means Cooling mode, a water-drop icon means Dehumidifying, a fan-blade icon means Fan Only (compressor is off, just circulating air), a sun icon means Heating, and \"FEEL\" means the unit is automatically choosing cooling or heating based on room conditions. A battery icon on the remote itself means the remote's batteries are low and need replacing."
+    },
+    {
+      "id": "ac-catalog-lineup-overview",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "PEL AC Catalog — Full Lineup Overview",
+      "content_brief": "PEL's inverter AC range spans a Basic tier (Alpha, Aero Extend), a Mid-tier (Sublime T3, Jumbo Black — both with built-in Wi-Fi and 4D dynamic airflow), a High-End tier (Turbo DC Ultimate, Jumbo DC-Classic, Jumbo DC Prime T3), a Floor Standing Cabinet range (Bold+, Supreme, Ultimate), and a Panasonic co-branded licensed range. The Non-Inverter (fixed-speed) range covers Wall-Mount Standard units (Majestic T3, Majestic Glory) and Floor Standing units (Bold, Regal). Inverter models automatically adjust compressor speed to match cooling demand, which is what gives them their energy-saving edge over fixed-speed non-inverter units."
+    },
+    {
+      "id": "ac-basic-range-alpha-aero",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Basic Range",
+      "model": "Alpha 12K/18K/24K, Aero Extend 12K/18K",
+      "title": "Basic Range — Alpha & Aero Extend",
+      "content_brief": "The Alpha and Aero Extend series are PEL's entry-level inverter ACs, offering Heat & Cool operation, a low-voltage start down to 130-160V, R32 refrigerant, and Gold Fin corrosion-resistant coils. Cooling capacity ranges from roughly 3500W (12K) to 6450W (24K) for Alpha, and 3663W to 5275W for the 12K/18K Aero Extend. Both are efficient units with EER ratings around 3.0-3.2."
+    },
+    {
+      "id": "ac-midtier-sublime-jumboblack",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Mid-Tier Range",
+      "model": "Sublime T3 12K/18K/24K, Jumbo Black 12K/18K/24K",
+      "title": "Mid-Tier Range — Sublime T3 & Jumbo Black",
+      "content_brief": "The Sublime T3 and Jumbo Black series step up to 4D dynamic airflow louvers, 3-stage Multi Health filtration, and built-in Wi-Fi control. Sublime T3 uses R32 refrigerant across all sizes; Jumbo Black uses R410A. Jumbo Black's 18K and 24K indoor units use an extra-wide 1025mm chassis. Cooling capacity ranges from about 3517W (12K) up to 7034W (24K) across both lines, with EER ratings in the 3.2-3.5 range."
+    },
+    {
+      "id": "ac-highend-turbo-dcclassic-dcprime",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "High-End Inverter Range",
+      "model": "Turbo DC Ultimate 12K/18K/24K, Jumbo DC-Classic 12K/18K/24K, Jumbo DC Prime T3 12K/18K/24K",
+      "title": "High-End Inverter Range — Turbo DC Ultimate, DC-Classic, DC Prime",
+      "content_brief": "PEL's high-end inverter tier adds \"Gen Mode,\" which limits current draw to 2.5A or less for genuinely low-power operation, along with full electronic multi-stage DC inverter control boards for finer temperature control. Turbo DC Ultimate and DC-Classic use R32 refrigerant; Jumbo DC Prime T3 uses R410A. These units post some of PEL's best efficiency numbers, with COP (heating efficiency) reaching as high as 4.14 on the 18K DC Prime."
+    },
+    {
+      "id": "ac-floorstanding-cabinet-detailed",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Floor Standing Cabinet Range",
+      "model": "24K Bold Plus, 24K Supreme Inverter, 48K Ultimate Inverter, 24K Regal Fixed-Speed, 48K Bold Plus Fixed-Speed",
+      "title": "Floor Standing Cabinet Range — Detailed",
+      "content_brief": "PEL's floor-standing cabinet ACs are designed for larger rooms and halls. The 24K Bold Plus and Supreme Inverter run on standard single-phase 220V power; the 48K Ultimate Inverter and 48K Bold Plus Fixed-Speed step up to 3-phase 380V power, which needs to be accounted for at installation. Cooling capacity ranges from 6500W (24K units) up to 14000-14500W (48K units). The 48K Ultimate uses R32 refrigerant; the other cabinet models use R410A."
+    },
+    {
+      "id": "ac-panasonic-cobranded",
+      "chunk_type": "spec",
+      "hazard_level": "none",
+      "series": "Panasonic Co-Branded Inverter Series",
+      "model": "CS/CU-UE12XKF-9, CS/CU-UE18XKF-9, CS/CU-UE24XKF-9",
+      "title": "Panasonic Co-Branded Series",
+      "content_brief": "PEL's Panasonic co-branded inverter range (12K/18K/24K) features a flame-retardant metallic enclosure on the outdoor PCB and 4-way 360° dynamic airflow. Cooling output ranges from 12,500 to 24,000 Btu/h, with heating output slightly higher on each size. These units have a minimum start-up voltage around 150V."
+    },
+    {
+      "id": "ac-error-codes-legacy-series",
+      "chunk_type": "error_code",
+      "hazard_level": "electrical",
+      "series": "Inverter",
+      "model": "Ace, Apex, Allure, Jumbo DC, Majestic, Regal, Supreme",
+      "title": "Error Code Meanings — Ace / Apex / Allure / Jumbo DC / Majestic / Regal / Supreme",
+      "content_brief": "E1 means the indoor unit's room-temperature sensor isn't reporting correctly. E3 means the indoor evaporator coil sensor has a fault. E2 means the outdoor condenser coil sensor has a fault. F6 means the outdoor ambient (outside air) sensor has a fault. E4 or Fb means the indoor blower (fan) motor has lost its feedback signal. E5 or 5E means the indoor and outdoor units have lost communication with each other. F1 or L4 means the main power module (IPM) has failed. F0 means the outdoor fan motor has lost its feedback signal. Any of these codes generally means the unit needs a PEL-certified technician visit — contact PEL CARE or the Khidmat Markaz app to schedule one.",
+      "content_detailed": "Raw technician reference table (Ace/Apex/Allure/Jumbo DC/Majestic/Regal/Supreme series): E1 = Indoor Room Temp NTC Fault. E3 = Indoor Evap Coil Sensor Fault. E2 = Outdoor Condenser Coil Sensor Fault. F6 = Outdoor Ambient Sensor Fault. E4 / Fb = Indoor Blower Motor Feedback Lost. E5 / 5E = Serial Comms Failure. F1 / L4 = IPM Failure. F0 = Outdoor Fan Motor Feedback Break. Cross-reference with the sensor resistance table and diagnostic flowcharts for confirmatory testing before component replacement."
+    },
+    {
+      "id": "ac-error-codes-fit-saver-series",
+      "chunk_type": "error_code",
+      "hazard_level": "electrical",
+      "series": "Inverter",
+      "model": "Fit, Saver, Super, Jumbo DC Prime, Sublime, Turbo DC",
+      "title": "Error Code Meanings — Fit / Saver / Sublime / Turbo DC",
+      "content_brief": "E1 means the indoor room-temperature sensor has a fault. E2 means the indoor evaporator coil sensor has a fault. E3 means the outdoor condenser coil sensor has a fault. E7 means the outdoor ambient sensor has a fault. E6 means the indoor blower motor has lost its feedback signal. E0 means the indoor and outdoor units have lost communication with each other. P0 or E9 means the main power module (IPM) has failed. EF means the outdoor fan motor has lost its feedback signal. Any of these generally means the unit needs a PEL-certified technician visit.",
+      "content_detailed": "Raw technician reference table (Fit/Saver/Sublime/Turbo DC series): E1 = Indoor Room Temp NTC Fault. E2 = Indoor Evap Coil Sensor Fault. E3 = Outdoor Condenser Coil Sensor Fault. E7 = Outdoor Ambient Sensor Fault. E6 = Indoor Blower Motor Feedback Lost. E0 = Serial Comms Failure. P0 / E9 = IPM Failure. EF = Outdoor Fan Motor Feedback Break."
+    },
+    {
+      "id": "ac-error-codes-turbo-ultra-series",
+      "chunk_type": "error_code",
+      "hazard_level": "electrical",
+      "series": "Inverter",
+      "model": "Turbo DC Ultra, Aero Plus, Ultimate, Aero Extend, Alpine",
+      "title": "Error Code Meanings — Turbo DC Ultra / Aero Plus / Ultimate / Aero Extend / Alpine",
+      "content_brief": "EH 60 means the indoor room-temperature sensor has a fault. EH 61 means the indoor evaporator coil sensor has a fault. EC 52 means the outdoor condenser coil sensor has a fault. EC 53 means the outdoor ambient sensor has a fault. EH 03 means the indoor blower motor has lost its feedback signal. EL 01 means the indoor and outdoor units have lost communication. PC 00 means the main power module (IPM) has failed. EC 07 means the outdoor fan motor has lost its feedback signal. Any of these generally means the unit needs a PEL-certified technician visit.",
+      "content_detailed": "Raw technician reference table (Turbo DC Ultra/Aero Plus/Ultimate/Aero Extend/Alpine series): EH 60 = Indoor Room Temp NTC Fault. EH 61 = Indoor Evap Coil Sensor Fault. EC 52 = Outdoor Condenser Coil Sensor Fault. EC 53 = Outdoor Ambient Sensor Fault. EH 03 = Indoor Blower Motor Feedback Lost. EL 01 = Serial Comms Failure. PC 00 = IPM Failure. EC 07 = Outdoor Fan Motor Feedback Break."
+    },
+    {
+      "id": "ac-error-codes-other-series",
+      "chunk_type": "error_code",
+      "hazard_level": "electrical",
+      "series": "Jumbo DC Black, Alpha, O-Glory, 48K Ultimate Floor Standing",
+      "model": "all",
+      "title": "Error Code Meanings — Jumbo DC Black / Alpha / O-Glory / 48K Ultimate Floor Standing",
+      "content_brief": "These model families use their own distinct code sets for the same underlying faults. Jumbo DC Black uses F-prefixed codes (F1 room sensor, F3 evaporator sensor, F4 condenser sensor, F2 ambient sensor, F0 blower feedback, F6 comms failure, F9 IPM failure, E2 outdoor fan feedback). Alpha and O-Glory models use plain numeric codes (33 room sensor, 34 evaporator sensor, 1 condenser sensor, 14 ambient sensor, 39 blower feedback, 36 comms failure, 19 IPM failure, 20 outdoor fan feedback). The 48K Ultimate Floor Standing unit also uses numeric codes, but with different numbers (81 room sensor, 83 evaporator sensor, 2 condenser sensor, 1 ambient sensor, 72 blower feedback, 64 comms failure, 45 IPM failure, 48 outdoor fan feedback). Any of these codes generally means the unit needs a PEL-certified technician visit.",
+      "content_detailed": "Fault Code Translation Index (partial, non-standard series): Jumbo DC Black — Indoor Room Temp NTC=F1, Indoor Evap Coil=F3, Outdoor Condenser Coil=F4, Outdoor Ambient=F2, Indoor Blower Feedback=F0, Serial Comms=F6, IPM Failure=F9, Outdoor Fan Feedback=E2. Alpha/O-Glory — Indoor Room Temp NTC=33, Indoor Evap Coil=34, Outdoor Condenser Coil=1, Outdoor Ambient=14, Indoor Blower Feedback=39, Serial Comms=36, IPM Failure=19, Outdoor Fan Feedback=20. 48K Ultimate Floor Standing — Indoor Room Temp NTC=81, Indoor Evap Coil=83, Outdoor Condenser Coil=2, Outdoor Ambient=1, Indoor Blower Feedback=72, Serial Comms=64, IPM Failure=45, Outdoor Fan Feedback=48."
+    },
+    {
+      "id": "ac-diagnostic-sensor-values",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "all",
+      "model": "all",
+      "title": "How Sensor Faults Are Confirmed",
+      "content_brief": "When an error code points to a sensor fault, a PEL technician confirms it by measuring the sensor's electrical resistance at room temperature and comparing it to the expected factory value — a reading that's far off tells them whether it's really the sensor, or a wiring/board issue instead. All these sensors are Negative Temperature Coefficient (NTC) types, meaning their resistance drops smoothly as temperature rises.",
+      "content_detailed": "AC NTC Sensor Resistances (25°C): Ambient Air Sensor = 19.3 KΩ ± 5%. Indoor Evaporator Coil Sensor = 24.9 KΩ ± 5%. Outdoor Condenser Coil Sensor = 25.1 KΩ ± 5%. Compressor Discharge Head Sensor = 62.7 KΩ ± 5%."
+    },
+    {
+      "id": "ac-diagnostic-flowcharts",
+      "chunk_type": "diagnostic_procedure",
+      "hazard_level": "electrical",
+      "series": "all",
+      "model": "all",
+      "title": "How Compressor, Sensor & Communication Faults Are Diagnosed",
+      "content_brief": "If your AC's compressor won't start, a sensor reading looks wrong, the blower motor stalls, or the indoor and outdoor units have lost communication, a PEL technician runs a specific electrical test sequence (connector checks, sensor resistance vs. curve, compressor winding checks, run-capacitor value, power-module output, wiring and fuse checks) to pinpoint the exact failed part before replacing anything. This involves live-voltage testing inside the unit and should only be done by certified personnel.",
+      "content_detailed": "Flowchart 1 (Temperature Sensor Open/Short Fault): Check plug-in connector tightness; fasten and reset if loose. Measure sensor resistance vs. current temperature; replace sensor if outside the nominal curve. If still faulty, trace the feedback line to the control PCB and replace the main board. Flowchart 2 (Inverter Compressor Ignition Failure): Check compressor phase resistances (U-V, V-W, W-U). If open/shorted, replace compressor. Else, verify DC output from IPM to motor; if erratic, replace outdoor PCB. Flowchart 3 (Indoor Blower Motor Stall): Check blower wheel for debris/friction and clean/align if locked. Measure run capacitor value against factory spec and replace if low. Check the indoor driver component (Ref: AQH3223) for a dead/shorted relay and replace if faulty. If line voltage is normal and motor winding is open, replace the indoor fan motor. Flowchart 4 (Serial Comms Link Broken / Dead Outdoor): Verify L-L, N-N, S-S wiring. Test main protection fuse on outdoor board. Check bridge rectifier (~220V AC in, ~310V DC out). Measure optocoupler bias voltages (PC1/PC2)."
+    },
+    {
+      "id": "ac-installation-vacuum-sop",
+      "chunk_type": "installation_procedure",
+      "hazard_level": "refrigerant",
+      "series": "all",
+      "model": "all",
+      "title": "How Installation & Refrigerant Charging Is Done",
+      "content_brief": "Correct AC installation involves precise refrigerant line lengths and a vacuum procedure to remove air and moisture from the system before it's charged with gas. This requires specialized vacuum-pump equipment and gauges, and is performed by PEL-certified installers — an incorrect vacuum procedure can damage the compressor or void the warranty.",
+      "content_detailed": "Refrigerant pipe extension: Factory pre-charged for 3 meters. Compensation factors: 12K AC (20 g/m), 18K AC (20 g/m), 24K AC (50 g/m). Max routing distance is 20m, max vertical lift is 10m. Deep Vacuum Procedure: Connect manifold gauge hoses to the outdoor unit's low-side gas service port. Activate the vacuum pump; fully open the blue low-pressure manifold valve. Run for a minimum of 15 minutes until the low-pressure gauge reads 29.92 in.Hg. Close the manifold valve before isolating or powering down the pump. Hold the isolated line for 5 minutes to confirm no pressure rise (a rise indicates a leak or trapped moisture). Backseat the high-side liquid service valve fully counter-clockwise with a hex key to release system gas. Disconnect manifold hoses and replace valve caps using a calibrated torque wrench."
+    },
+    {
+      "id": "ac-installation-clearances",
+      "chunk_type": "installation_procedure",
+      "hazard_level": "none",
+      "series": "all",
+      "model": "all",
+      "title": "Required Installation Clearances",
+      "content_brief": "PEL AC installations follow set minimum clearance distances for both the indoor and outdoor units so the system can draw and discharge air properly and stay serviceable — a technician measures these during installation.",
+      "content_detailed": "Indoor Unit (IDU): Ceiling clearance ≥ 3.5 in; left/right wall clearance ≥ 1.0 in; avoid mounting above high-amperage appliances or heat sources (maintain ≥ 40 in floor clearance). Outdoor Unit (ODU): Overhead ceiling/shed buffer ≥ 12 in; rear wall buffer ≥ 12 in; right-hand service space ≥ 24 in; air discharge front buffer ≥ 78 in."
+    },
+    {
+      "id": "ac-hybrid-brand-assembly",
+      "chunk_type": "installation_procedure",
+      "hazard_level": "refrigerant",
+      "series": "all",
+      "model": "all",
+      "title": "Mixing Indoor & Outdoor Units From Different Brands",
+      "content_brief": "Pairing a PEL outdoor unit with another brand's indoor unit (or vice versa) isn't something PEL generally authorizes for standard installs. It can only work if very specific engineering conditions are met, and PEL doesn't recommend it for typical residential setups — a mismatch can damage the compressor or the unit simply won't function correctly.",
+      "content_detailed": "Inter-Brand Hybrid Assembly Validation rules: (1) Tonnage Match — capacities must match exactly (a 1.0-ton IDU cannot pair with a 1.5-ton ODU). (2) Technology Match — a variable-speed inverter board cannot drive a fixed-speed non-inverter compressor. (3) Refrigerant/Lubricant Compatibility — never run a legacy R22 evaporator into a higher-pressure R410A system. (4) Cycle Alignment — a cooling-only indoor board cannot coordinate reverse-cycle changes with an outdoor heat-pump unit."
+    }
+  ]
+}

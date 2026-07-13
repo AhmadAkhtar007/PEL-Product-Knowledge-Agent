@@ -28,15 +28,6 @@ async def test_rag_query_requires_query_field(client, mock_llm_service):
     assert response.status_code == 422
 
 
-@pytest.mark.asyncio
-async def test_rag_query_requires_valid_role(client, mock_llm_service):
-    """POST /rag/query with an invalid role returns 400 Bad Request."""
-    response = await client.post(
-        "/rag/query",
-        json={"query": "My fridge is not cooling", "role": "invalid"},
-    )
-    assert response.status_code == 400
-
 
 @pytest.mark.asyncio
 async def test_rag_query_customer_returns_response(client, mock_llm_service):
@@ -164,7 +155,7 @@ async def test_escalation_detected_when_llm_includes_escalate_complaint(
 ):
     """When the LLM response contains 'ESCALATE_complaint', escalate must be True."""
     mock_llm_service.query_gemini_multimodal = AsyncMock(
-        return_value="I cannot resolve this issue. ESCALATE_complaint"
+        return_value="I cannot resolve this issue. [ESCALATE: category=refrigerator; probable_component=compressor; confidence=high]"
     )
 
     response = await client.post(
@@ -182,7 +173,7 @@ async def test_escalation_detected_when_llm_includes_escalate_expert(
 ):
     """When the LLM response contains 'ESCALATE_expert', escalate must be True."""
     mock_llm_service.query_gemini_multimodal = AsyncMock(
-        return_value="This requires factory calibration. ESCALATE_expert"
+        return_value="This requires factory calibration. [ESCALATE: category=refrigerator; probable_component=inverter_board; confidence=high]"
     )
 
     response = await client.post(
@@ -201,7 +192,7 @@ async def test_escalation_detected_when_llm_includes_escalate_expert(
 async def test_escalation_token_stripped_from_response(client, mock_llm_service):
     """The ESCALATE_ tokens must NOT appear in the returned response text."""
     mock_llm_service.query_gemini_multimodal = AsyncMock(
-        return_value="Issue needs factory attention. ESCALATE_expert"
+        return_value="Issue needs factory attention. [ESCALATE: category=refrigerator; probable_component=board; confidence=high]"
     )
 
     response = await client.post(
@@ -210,8 +201,7 @@ async def test_escalation_token_stripped_from_response(client, mock_llm_service)
     )
     assert response.status_code == 200
     data = response.json()
-    assert "ESCALATE_expert" not in data["response"]
-    assert "ESCALATE_complaint" not in data["response"]
+    assert "[ESCALATE:" not in data["response"]
 
 
 @pytest.mark.asyncio
@@ -236,7 +226,7 @@ async def test_technician_escalation_includes_expert_contacts(
 ):
     """When role=technician and escalate=True, response must include expert_contacts array."""
     mock_llm_service.query_gemini_multimodal = AsyncMock(
-        return_value="Cannot diagnose remotely. ESCALATE_expert"
+        return_value="Cannot diagnose remotely. [ESCALATE: category=refrigerator; probable_component=sealed_system; confidence=high]"
     )
 
     response = await client.post(

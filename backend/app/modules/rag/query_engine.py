@@ -4,6 +4,7 @@ from typing import Optional, List
 from backend.app.config import settings
 from backend.app.modules.rag.prompts import GENERAL_PROMPT_TEMPLATE
 from backend.app.modules.rag.ingestion import get_embeddings
+from backend.app.modules.rag.retrieval import retrieve, RetrievedChunk
 
 class RAGQueryEngine:
     def __init__(self):
@@ -18,12 +19,13 @@ class RAGQueryEngine:
         product_id: Optional[str] = None,
         model: Optional[str] = None,
         series: Optional[str] = None,
+        **kwargs
     ) -> tuple[list[str], list[dict]]:
-        """Retrieve matching chunks and metadata from ChromaDB using Hybrid Search (Vector + BM25)."""
+        """Retrieve matching chunks and metadata using the new brief/detailed logic with BM25 fallback."""
+        
         # 1. Build where filter for ChromaDB
         conditions = []
         
-        # Model / Product ID filter
         target_model = model or product_id
         if target_model:
             conditions.append({
@@ -33,7 +35,6 @@ class RAGQueryEngine:
                 ]
             })
             
-        # Series filter
         if series:
             conditions.append({
                 "$or": [
@@ -48,37 +49,39 @@ class RAGQueryEngine:
         elif len(conditions) == 1:
             where_clause = conditions[0]
             
-        # 2. Retrieve ALL chunks matching metadata to perform RRF
+        # Try semantic search using the new retrieval helper
+        try:
+            query_embeddings = get_embeddings([query_text])
+            query_vector = query_embeddings[0]
+            results: list[RetrievedChunk] = retrieve(query_vector, top_k=4, where_clause=where_clause)
+            
+            final_docs = [r.brief_text for r in results]
+            final_metas = [{
+                "parent_id": r.parent_id,
+                "title": r.title,
+                "product_category": r.product_category,
+                "chunk_type": r.chunk_type,
+                "hazard_level": r.hazard_level,
+                "has_detailed": r.has_detailed
+            } for r in results]
+            
+            return final_docs, final_metas
+            
+        except Exception as exc:
+            print(f"Vector retrieval failed; falling back to BM25-only retrieval: {exc}")
+            
+        # Fallback to BM25-only retrieval (for tests and offline mode)
         try:
             all_results = self.collection.get(where=where_clause)
         except Exception:
-            all_results = {"documents": [], "metadatas": [], "ids": []}
+            return [], []
             
         docs = all_results.get("documents", [])
         metas = all_results.get("metadatas", [])
-        ids = all_results.get("ids", [])
         
         if not docs:
             return [], []
             
-        # 3. Compute Vector Search (get top 20 to rank)
-        try:
-            query_embeddings = get_embeddings([query_text])
-            query_vector = query_embeddings[0]
-
-            vector_results = self.collection.query(
-                query_embeddings=[query_vector],
-                n_results=min(20, len(docs)),
-                where=where_clause
-            )
-
-            vector_ids = vector_results.get("ids", [[]])[0]
-            vector_rank = {doc_id: rank + 1 for rank, doc_id in enumerate(vector_ids)}
-        except Exception as exc:
-            print(f"Vector retrieval failed; falling back to BM25-only retrieval: {exc}")
-            vector_rank = {}
-        
-        # 4. Compute BM25 Search
         try:
             import re
             from rank_bm25 import BM25Okapi
@@ -91,35 +94,50 @@ class RAGQueryEngine:
             tokenized_query = tokenize(query_text)
             bm25_scores = bm25.get_scores(tokenized_query)
             
-            # Sort IDs by BM25 score
+            # Sort by BM25 score
             bm25_sorted_indices = sorted(range(len(bm25_scores)), key=lambda i: bm25_scores[i], reverse=True)
-            bm25_rank = {ids[i]: rank + 1 for rank, i in enumerate(bm25_sorted_indices)}
+            top_indices = bm25_sorted_indices[:4]
+            
+            # Deduplicate by parent_id and fetch brief version if we hit a detailed one
+            seen_parent_ids = set()
+            final_docs = []
+            final_metas = []
+            
+            for idx in top_indices:
+                meta = metas[idx]
+                parent_id = meta.get("parent_id")
+                
+                # If chunk is from old schema, it might not have parent_id
+                if not parent_id:
+                    final_docs.append(docs[idx])
+                    final_metas.append(meta)
+                    continue
+                    
+                if parent_id in seen_parent_ids:
+                    continue
+                seen_parent_ids.add(parent_id)
+                
+                if meta.get("disclosure") == "brief":
+                    brief_text = docs[idx]
+                else:
+                    # Fetch brief
+                    brief_result = self.collection.get(ids=[f"{parent_id}::brief"])
+                    brief_text = brief_result["documents"][0] if brief_result["documents"] else docs[idx]
+                
+                final_docs.append(brief_text)
+                final_metas.append({
+                    "parent_id": parent_id,
+                    "title": meta.get("title", ""),
+                    "product_category": meta.get("product_category", ""),
+                    "chunk_type": meta.get("chunk_type", ""),
+                    "hazard_level": meta.get("hazard_level", "none"),
+                    "has_detailed": bool(meta.get("has_detailed", False))
+                })
+                
+            return final_docs, final_metas
+            
         except ImportError:
-            # Fallback if BM25 fails
-            bm25_rank = {}
-
-        # 5. Compute Reciprocal Rank Fusion (RRF)
-        # RRF Score = 1 / (k + rank), typically k=60
-        k = 60
-        rrf_scores = {}
-        for doc_id in ids:
-            v_rank = vector_rank.get(doc_id, 1000) # Penalty if not in top vector results
-            b_rank = bm25_rank.get(doc_id, 1000)
-            rrf_scores[doc_id] = (1.0 / (k + v_rank)) + (1.0 / (k + b_rank))
-            
-        # Sort by RRF score
-        sorted_ids = sorted(rrf_scores.keys(), key=lambda x: rrf_scores[x], reverse=True)
-        top_ids = sorted_ids[:4]
-        
-        # Build final context lists
-        final_docs = []
-        final_metas = []
-        for top_id in top_ids:
-            idx = ids.index(top_id)
-            final_docs.append(docs[idx])
-            final_metas.append(metas[idx])
-            
-        return final_docs, final_metas
+            return [], []
 
     async def query(
         self,
@@ -128,7 +146,8 @@ class RAGQueryEngine:
         model: Optional[str] = None,
         series: Optional[str] = None,
         image_base64: Optional[str] = None,
-        history: str = ""
+        history: str = "",
+        **kwargs
     ) -> dict:
         """Query ChromaDB using Hybrid Search, construct role-appropriate prompt, and call Gemini 1.5 Flash."""
         # 1. Retrieve context
@@ -136,7 +155,8 @@ class RAGQueryEngine:
             query_text=query_text,
             product_id=product_id,
             model=model,
-            series=series
+            series=series,
+            **kwargs
         )
         
         # 2. Format context
@@ -150,10 +170,10 @@ class RAGQueryEngine:
             
         # 5. Check for escalation signals
         escalate = False
-        if re.search(r'ESCALATE_(complaint|expert)', llm_response):
+        if re.search(r'\[ESCALATE:.*?\]', llm_response):
             escalate = True
-            # Strip the tokens with optional trailing punctuation
-            llm_response = re.sub(r'ESCALATE_(complaint|expert)[^\w]*', '', llm_response).strip()
+            # Remove the trigger phrase from the final response
+            llm_response = re.sub(r'\[ESCALATE:.*?\][^\w]*', '', llm_response).strip()
             if not llm_response:
                 llm_response = "I recommend having a technician look at this. Let me escalate this for you."
                 
