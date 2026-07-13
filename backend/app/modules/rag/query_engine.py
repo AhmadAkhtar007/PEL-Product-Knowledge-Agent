@@ -150,9 +150,12 @@ class RAGQueryEngine:
         **kwargs
     ) -> dict:
         """Query ChromaDB using Hybrid Search, construct role-appropriate prompt, and call Gemini 1.5 Flash."""
-        # 1. Retrieve context
+        # 0. Translate query to English for optimal retrieval across languages
+        search_query_text = await self.llm.translate_to_english_search_query(query_text)
+
+        # 1. Retrieve context using the English search query
         context_chunks, metadatas = self.retrieve_context(
-            query_text=query_text,
+            query_text=search_query_text,
             product_id=product_id,
             model=model,
             series=series,

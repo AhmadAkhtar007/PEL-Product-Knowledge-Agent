@@ -11,7 +11,6 @@ router = APIRouter()
 
 class QueryRequest(BaseModel):
     query: str
-    role: Optional[str] = None
 
     product_id: Optional[str] = None
     model: Optional[str] = None

@@ -9,7 +9,6 @@ class Conversation(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(String, nullable=True)
     title = Column(String, nullable=True)
-    role = Column(String, nullable=False)
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 

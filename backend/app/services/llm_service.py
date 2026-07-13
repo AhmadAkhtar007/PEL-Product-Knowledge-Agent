@@ -49,6 +49,24 @@ class LLMService:
             print(f"Gemini API call failed: {e}. Falling back to mock response.")
             return "I'm currently experiencing some technical difficulties connecting to my knowledge base. Please try asking your question again in a moment."
 
+    async def translate_to_english_search_query(self, query: str) -> str:
+        """Translates an arbitrary language query into a concise English search query for the RAG retriever."""
+        if not self.client:
+            return query
+            
+        prompt = (
+            "You are a search query translator for a home appliance knowledge base.\n"
+            "Translate the following user query into a concise, keyword-focused English search query.\n"
+            "Return ONLY the translated English search query, with no quotes, explanations, or extra text.\n"
+            "If it is already in English, return it as is or optimize it slightly for search.\n\n"
+            f"Query: {query}"
+        )
+        try:
+            return await self.query_gemini_multimodal(prompt)
+        except Exception as e:
+            print(f"Translation failed: {e}. Falling back to original query.")
+            return query
+
     async def generate_content_stream(self, prompt: str, image_base64: str = None, audio_base64: str = None, **kwargs):
         """Yield response chunks using Gemini's streaming API, or mock fallback."""
         if not self.client:

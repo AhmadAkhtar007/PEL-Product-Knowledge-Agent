@@ -26,13 +26,11 @@ router = APIRouter()
 # ---------------------------------------------------------------------------
 
 class ConversationCreate(BaseModel):
-    role: str = "general"
     title: Optional[str] = None
 
 class ConversationResponse(BaseModel):
     id: int
     title: Optional[str]
-    role: str
     created_at: datetime
     updated_at: datetime
 
@@ -42,7 +40,6 @@ class ConversationResponse(BaseModel):
 class ConversationListResponse(BaseModel):
     id: int
     title: Optional[str]
-    role: str
     message_count: int
     updated_at: datetime
 
@@ -61,7 +58,6 @@ class MessageResponse(BaseModel):
 
 class QueryRequest(BaseModel):
     query: str
-    role: Optional[str] = None
     product_id: Optional[str] = None
     model: Optional[str] = None
     series: Optional[str] = None
@@ -76,7 +72,6 @@ class QueryRequest(BaseModel):
 async def create_conversation(req: ConversationCreate, db: AsyncSession = Depends(get_db_session)):
     
     conv = Conversation(
-        role=req.role,
         title=req.title,
     )
     db.add(conv)
@@ -98,7 +93,6 @@ async def list_conversations(db: AsyncSession = Depends(get_db_session)):
         response.append({
             "id": conv.id,
             "title": conv.title,
-            "role": conv.role,
             "message_count": len(conv.messages),
             "updated_at": conv.updated_at
         })

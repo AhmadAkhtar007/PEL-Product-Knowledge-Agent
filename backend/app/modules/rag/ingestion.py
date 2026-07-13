@@ -21,28 +21,19 @@ def get_embeddings(texts: list[str]) -> list[list[float]]:
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     
-    # Try text-embedding-004 first
     try:
+        # Use a single, stable embedding model consistently for both ingestion and retrieval.
+        # This prevents vector space mismatches if one model randomly fails and falls back to another.
         response = client.models.embed_content(
-            model="text-embedding-004",
+            model="models/embedding-001",
             contents=texts
         )
         if hasattr(response, "embeddings") and response.embeddings:
             return [emb.values for emb in response.embeddings]
+        else:
+            raise ValueError("No embeddings returned from the API.")
     except Exception as e:
-        print(f"text-embedding-004 failed, falling back to gemini-embedding-001: {e}")
-        
-    # Fallback to gemini-embedding-001
-    try:
-        response = client.models.embed_content(
-            model="models/gemini-embedding-001",
-            contents=texts
-        )
-        if hasattr(response, "embeddings") and response.embeddings:
-            return [emb.values for emb in response.embeddings]
-    except Exception as e:
-        print(f"Fallback to gemini-embedding-001 failed: {e}")
-        raise e
+        raise RuntimeError(f"Embedding generation failed: {e}")
 
 DOCUMENTS_DIR = "backend/documents"
 COLLECTION_NAME = "pel_knowledge_base"
@@ -137,7 +128,15 @@ def ingest_knowledge_base(documents_dir: str = DOCUMENTS_DIR, reset: bool = True
             batch_docs = docs[i:i+batch_size]
             batch_metadatas = metadatas[i:i+batch_size]
             
-            embeddings = get_embeddings(batch_docs)
+            try:
+                embeddings = get_embeddings(batch_docs)
+            except RuntimeError as e:
+                print(f"Warning: {e}. Using mock embeddings to populate DB for BM25 fallback.")
+                import hashlib
+                embeddings = []
+                for text in batch_docs:
+                    h = hashlib.sha256(text.encode('utf-8')).digest()
+                    embeddings.append([((h[j % 32] + j) % 256) / 256.0 for j in range(768)])
 
             collection.upsert(
                 ids=batch_ids, documents=batch_docs, metadatas=batch_metadatas, embeddings=embeddings
