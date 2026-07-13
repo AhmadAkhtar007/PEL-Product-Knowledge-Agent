@@ -11,3 +11,4 @@ dist/
 coverage/
 chroma_db/
 backend/chroma_db/
+.worktrees/
