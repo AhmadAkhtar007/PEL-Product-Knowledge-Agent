@@ -1,16 +1,18 @@
-# PEL Smart Customer Ecosystem
+# PEL Product Knowledge Agent
 
 ## Overview
-The PEL Smart Customer ecosystem is a comprehensive, multi-platform solution designed to provide intelligent, AI-driven support for home appliances. It integrates a powerful backend Retrieval-Augmented Generation (RAG) pipeline with multiple frontend clients, allowing users to troubleshoot issues, access manuals, and manage service requests seamlessly.
+The **PEL Product Knowledge Agent** is a single, general-purpose, AI-driven assistant designed for anyone using PEL appliances—ranging from refrigerators, air conditioners, and deep freezers to microwave ovens, washing machines, LED TVs, water dispensers, and air purifiers. 
+
+Powered by a Retrieval-Augmented Generation (RAG) backend, it provides a unified starting point for everyone. Whether a user is a customer looking for basic troubleshooting or a technician needing in-depth technical specifications, the agent dynamically adjusts its technical depth based purely on the questions asked.
 
 ## System Architecture
 The repository operates as a monorepo containing the following core components:
 
-- **Backend** (`backend/`): A FastAPI-based server featuring a robust RAG pipeline, LLM integration, and a PostgreSQL/Alembic database for data persistence. It utilizes ChromaDB for vector storage of appliance manuals and technical knowledge bases.
+- **Backend** (`backend/`): A FastAPI-based server featuring the robust RAG pipeline, LLM integration, and a PostgreSQL/Alembic database for data persistence. It utilizes ChromaDB for vector storage of appliance manuals and the technical knowledge base.
 - **Web Applications**: Built with Next.js, TypeScript, and Tailwind CSS.
-  - `agent-app/`: A dedicated interface for customer service agents to manage ongoing conversations and support tickets.
-  - `web-app/`: The primary customer-facing web portal.
-- **Mobile Application** (`android-app/`): A React Native application built with Expo for Android and iOS users.
+  - `web-app/`: The primary public-facing portal for interacting directly with the Knowledge Agent.
+  - `agent-app/`: A dedicated interface for customer service agents to manage ongoing conversations and support operations.
+- **Mobile Application** (`android-app/`): A React Native application built with Expo for Android and iOS users, featuring a sleek chat interface to interact with the Knowledge Agent on the go.
 
 ## Prerequisites
 Ensure the following dependencies are installed on your machine before running the project:
@@ -53,25 +55,25 @@ npm start
 You can then scan the provided QR code using the Expo Go app on your physical device, or run it on an Android/iOS emulator.
 
 #### 3. Web Applications
-To run either the customer web portal or the agent dashboard:
+To run either the public portal or the internal agent dashboard:
 
 ```bash
-# For the Agent Dashboard
-cd agent-app
+# For the Public Knowledge Agent Portal
+cd web-app
 npm install
 npm run dev
 
-# For the Customer Web Portal
-cd web-app
+# For the Internal Agent Dashboard
+cd agent-app
 npm install
 npm run dev
 ```
 
 ## Documentation
-Additional technical documentation, architectural decision records, and specifications can be found in the `docs/` directory. Knowledge base source files for the RAG pipeline are located in `backend/documents/`. The core design system tokens and UI guidelines are strictly documented in `Design.md`.
+Additional technical documentation, architectural decision records, and project scopes (such as the Phase 1.1 Knowledge Agent scope) can be found in the `docs/` directory. The unified knowledge base source files for the RAG pipeline are located in `backend/documents/`. The core design system tokens and UI guidelines are documented in `Design.md`.
 
 ## Testing
-The backend features a comprehensive Pytest suite. To execute the test suite, ensure your backend environment is configured and run:
+The backend features a comprehensive Pytest suite. To execute the test suite, ensure your backend environment is running and execute:
 
 ```bash
 cd backend
