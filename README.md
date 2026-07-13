@@ -11,7 +11,6 @@ The repository operates as a monorepo containing the following core components:
 - **Backend** (`backend/`): A FastAPI-based server featuring the robust RAG pipeline, LLM integration, and a PostgreSQL/Alembic database for data persistence. It utilizes ChromaDB for vector storage of appliance manuals and the technical knowledge base.
 - **Web Applications**: Built with Next.js, TypeScript, and Tailwind CSS.
   - `web-app/`: The primary public-facing portal for interacting directly with the Knowledge Agent.
-  - `agent-app/`: A dedicated interface for customer service agents to manage ongoing conversations and support operations.
 - **Mobile Application** (`android-app/`): A React Native application built with Expo for Android and iOS users, featuring a sleek chat interface to interact with the Knowledge Agent on the go.
 
 ## Prerequisites
@@ -54,17 +53,11 @@ npm start
 ```
 You can then scan the provided QR code using the Expo Go app on your physical device, or run it on an Android/iOS emulator.
 
-#### 3. Web Applications
-To run either the public portal or the internal agent dashboard:
+#### 3. Web Application
+To run the public portal:
 
 ```bash
-# For the Public Knowledge Agent Portal
 cd web-app
-npm install
-npm run dev
-
-# For the Internal Agent Dashboard
-cd agent-app
 npm install
 npm run dev
 ```
