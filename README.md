@@ -1,60 +1,81 @@
 # PEL Product Knowledge Agent
 
-## Overview
-The **PEL Product Knowledge Agent** is a single, general-purpose, AI-driven assistant designed for anyone using PEL appliances—ranging from refrigerators, air conditioners, and deep freezers to microwave ovens, washing machines, LED TVs, water dispensers, and air purifiers. 
+> A multi-platform RAG system for appliance support, technical lookup, and product knowledge retrieval.
 
-Powered by a Retrieval-Augmented Generation (RAG) backend, it provides a unified starting point for everyone. Whether a user is a customer looking for basic troubleshooting or a technician needing in-depth technical specifications, the agent dynamically adjusts its technical depth based purely on the questions asked.
+The **PEL Product Knowledge Agent** turns appliance manuals and technical documentation into a searchable AI assistant for both customers and technical users. Instead of forcing users to navigate fragmented PDFs or product pages, the system retrieves relevant source material and adapts the depth of its answer to the question being asked.
 
-## System Architecture
-The repository operates as a monorepo containing the following core components:
+## Why this project matters
 
-- **Backend** (`backend/`): A FastAPI-based server featuring the robust RAG pipeline, LLM integration, and a PostgreSQL/Alembic database for data persistence. It utilizes ChromaDB for vector storage of appliance manuals and the technical knowledge base.
-- **Web Applications**: Built with Next.js, TypeScript, and Tailwind CSS.
-  - `web-app/`: The primary public-facing portal for interacting directly with the Knowledge Agent.
-- **Mobile Application** (`android-app/`): A React Native application built with Expo for Android and iOS users, featuring a sleek chat interface to interact with the Knowledge Agent on the go.
+This project is not a chat UI wrapped around an LLM. It is an end-to-end software system spanning document retrieval, backend APIs, persistence, web, mobile, containerized infrastructure, and automated verification.
 
-## Prerequisites
-Ensure the following dependencies are installed on your machine before running the project:
-- Docker and Docker Compose
-- Node.js (v18 or higher) and npm
-- PowerShell (for Windows users utilizing the automated start scripts)
+### Core capabilities
 
-## Getting Started
+- Retrieval-Augmented Generation over appliance manuals and technical documents
+- FastAPI backend with PostgreSQL persistence and Alembic migrations
+- ChromaDB vector store for semantic retrieval
+- Next.js web application for browser-based access
+- React Native / Expo mobile client
+- Docker Compose development environment
+- Pytest-based backend verification
+- Shared design and architecture documentation
 
-### Automated Setup (Windows)
-For Windows users, an automated start script is provided in the root directory. This script will build the necessary Docker containers for the backend, install Android app dependencies, and launch the Expo bundler automatically.
+## Architecture
 
-1. Open PowerShell and navigate to the project root directory.
-2. Run the initialization script:
-   ```powershell
-   .\start-all.ps1
-   ```
+```mermaid
+flowchart LR
+    U[User] --> W[Next.js Web App]
+    U --> M[React Native App]
+    W --> API[FastAPI Backend]
+    M --> API
+    API --> RAG[RAG Pipeline]
+    RAG --> V[(ChromaDB)]
+    RAG --> LLM[LLM Provider]
+    API --> DB[(PostgreSQL)]
+    DOCS[PEL Manuals / Knowledge Base] --> V
+```
 
-### Manual Setup
+## Repository structure
 
-#### 1. Backend Service
-The backend and its associated database services (PostgreSQL, ChromaDB) are containerized using Docker. To start the entire backend stack:
+```text
+PEL-Product-Knowledge-Agent/
+├── backend/       # FastAPI, RAG pipeline, database, tests
+├── web-app/       # Next.js + TypeScript web client
+├── android-app/   # React Native / Expo mobile client
+├── docs/          # Architecture and project documentation
+├── Design.md      # Design-system and UI guidance
+└── docker-compose.yml
+```
+
+## Technology stack
+
+| Layer | Technologies |
+|---|---|
+| AI / Retrieval | RAG, ChromaDB, LLM integration |
+| Backend | Python, FastAPI, PostgreSQL, Alembic |
+| Web | Next.js, TypeScript, Tailwind CSS |
+| Mobile | React Native, Expo |
+| Infrastructure | Docker, Docker Compose |
+| Verification | Pytest |
+
+## Engineering decisions
+
+**One backend, multiple clients.** The retrieval and application logic live behind one API so the web and mobile clients share the same source of truth.
+
+**Retrieval before generation.** Product answers are grounded in indexed technical material rather than relying on an LLM's general memory.
+
+**Explicit persistence and migrations.** PostgreSQL and Alembic keep application data and schema changes reproducible.
+
+**Containerized local setup.** The backend stack can be brought up consistently without manually configuring each service.
+
+## Run locally
+
+### Backend
 
 ```bash
-# Start the backend stack in detached mode
 docker compose up -d --build
 ```
-The FastAPI application will launch, and database migrations will be handled automatically by Alembic.
 
-#### 2. Mobile Application
-The mobile application is built using Expo.
-
-```bash
-cd android-app
-npm install
-
-# Start the Metro bundler
-npm start
-```
-You can then scan the provided QR code using the Expo Go app on your physical device, or run it on an Android/iOS emulator.
-
-#### 3. Web Application
-To run the public portal:
+### Web
 
 ```bash
 cd web-app
@@ -62,13 +83,31 @@ npm install
 npm run dev
 ```
 
-## Documentation
-Additional technical documentation, architectural decision records, and project scopes (such as the Phase 1.1 Knowledge Agent scope) can be found in the `docs/` directory. The unified knowledge base source files for the RAG pipeline are located in `backend/documents/`. The core design system tokens and UI guidelines are documented in `Design.md`.
+### Mobile
 
-## Testing
-The backend features a comprehensive Pytest suite. To execute the test suite, ensure your backend environment is running and execute:
+```bash
+cd android-app
+npm install
+npm start
+```
+
+### Windows automated setup
+
+```powershell
+.\start-all.ps1
+```
+
+## Verification
 
 ```bash
 cd backend
 pytest
 ```
+
+## Documentation
+
+Technical notes, architectural decisions, and project scopes are maintained in [`docs/`](docs/). Source documents used by the retrieval pipeline live under `backend/documents/`.
+
+---
+
+Built as an applied AI systems project: retrieval, backend engineering, data persistence, product interfaces, and deployment concerns in one codebase.
